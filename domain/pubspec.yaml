@@ -1,0 +1,33 @@
+name: domain
+description: A new Flutter package project.
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: '>=3.2.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+    path: ../core
+  data:
+    path: ../data
+  equatable: 2.0.5
+  firebase_core: 2.24.2
+  firebase_auth: 4.16.0
+  cloud_firestore: 4.14.0
+  get_it: 7.6.7
+  injectable: 2.3.2
+  json_annotation: 4.8.1
+  json_serializable: 6.7.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  analysis_defaults:
+    path: ../analysis_defaults
+  injectable_generator: 2.4.1
+  build_runner: 2.4.8
+
+flutter:

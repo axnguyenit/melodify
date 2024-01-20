@@ -1,0 +1,61 @@
+name: storybook
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: '>=3.2.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+    path: ../core
+  melodify:
+    path: ../app
+  resources:
+    path: ../resources
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  analysis_defaults:
+    path: ../analysis_defaults
+
+flutter:
+  uses-material-design: true
+  #  assets:
+  #    - packages/resources/i18n/en.json
+  fonts:
+    - family: 'Public Sans'
+      fonts:
+        - asset: packages/resources/fonts/public_sans/PublicSans-ExtraLight.ttf
+          weight: 200
+        - asset: packages/resources/fonts/public_sans/PublicSans-Light.ttf
+          weight: 300
+        - asset: packages/resources/fonts/public_sans/PublicSans-Regular.ttf
+          weight: 400
+        - asset: packages/resources/fonts/public_sans/PublicSans-Medium.ttf
+          weight: 500
+        - asset: packages/resources/fonts/public_sans/PublicSans-SemiBold.ttf
+          weight: 600
+        - asset: packages/resources/fonts/public_sans/PublicSans-Bold.ttf
+          weight: 700
+        - asset: packages/resources/fonts/public_sans/PublicSans-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+        - asset: packages/resources/fonts/public_sans/PublicSans-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: packages/resources/fonts/public_sans/PublicSans-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: packages/resources/fonts/public_sans/PublicSans-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: packages/resources/fonts/public_sans/PublicSans-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: packages/resources/fonts/public_sans/PublicSans-BoldItalic.ttf
+          weight: 700
+          style: italic

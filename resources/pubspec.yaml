@@ -1,0 +1,23 @@
+name: resources
+description: A new Flutter package project.
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: '>=3.2.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sprintf: 7.0.0
+
+dev_dependencies:
+  analysis_defaults:
+    path: ../analysis_defaults
+
+flutter:
+  assets:
+    - lib/i18n/
+    - lib/fonts/
+    - assets/images/
+    - assets/icons/

@@ -1,0 +1,23 @@
+name: initializer
+description: "A new Flutter package."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+    path: ../core
+  data:
+    path: ../data
+  domain:
+    path: ../domain
+
+dev_dependencies:
+  analysis_defaults:
+    path: ../analysis_defaults
+
+flutter:
