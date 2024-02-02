@@ -5,7 +5,6 @@ import 'package:melodify/constants/constants.dart';
 import 'package:melodify/modules/base/base.dart';
 import 'package:melodify/modules/common/common.dart';
 import 'package:melodify/modules/routes.dart';
-import 'package:melodify/widgets/widgets.dart';
 import 'package:resources/resources.dart';
 
 class SmsVerificationScreen extends StatefulWidget {
@@ -100,7 +99,7 @@ class _SmsVerificationScreenState
   @override
   PreferredSizeWidget? get buildAppBar {
     return AppBar(
-      title: XText.titleLarge(
+      title: Text(
         context.translate(Strings.smsVerification),
       ),
     );

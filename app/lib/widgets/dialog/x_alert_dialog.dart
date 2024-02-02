@@ -35,7 +35,10 @@ class XAlertDialog extends StatelessWidget {
               height: AppConstants.formFieldHeight,
               borderRadius: BorderRadius.zero,
               child: Center(
-                child: XText.labelMedium(okTitle ?? 'Close'),
+                child: Text(
+                  okTitle ?? 'Close',
+                  style: context.labelMedium,
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop(true);

@@ -81,7 +81,7 @@ class _SignUpScreenState extends BaseScreenWithBloc<SignUpScreen, SignUpBloc> {
   @override
   PreferredSizeWidget get buildAppBar {
     return AppBar(
-      title: XText.titleMedium(
+      title: Text(
         context.translate(
           Strings.signUp,
         ),
@@ -123,10 +123,11 @@ class _SignUpScreenState extends BaseScreenWithBloc<SignUpScreen, SignUpBloc> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    XText.bodySmall(
+                    Text(
                       context.translate(
                         Strings.alreadyHaveAccount,
                       ),
+                      style: context.bodySmall,
                     ),
                     const SizedBox(width: 4),
                     XLinkButton(

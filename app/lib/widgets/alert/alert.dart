@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:melodify/constants/constants.dart';
 import 'package:melodify/theme/theme.dart';
-import 'package:melodify/widgets/widgets.dart';
 
 part 'enums.dart';
 
@@ -58,19 +57,19 @@ class Alert extends StatelessWidget {
             ),
             const SizedBox(width: 8.0),
             Expanded(
-              child: XText(
+              child: Text(
                 message,
                 overflow: TextOverflow.ellipsis,
                 maxLines: maxLines,
                 textAlign: TextAlign.start,
-              ).customWith(
-                context,
-                color: isToast
+                  style: context.bodyMedium?.copyWith(
+                    color: isToast
                     ? null
                     : variant.textColor(
                         context,
                         severity.color,
                       ),
+                  )
               ),
             ),
             if (action != null) action!,

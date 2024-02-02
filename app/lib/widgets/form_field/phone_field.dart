@@ -95,7 +95,7 @@ class _PhoneFieldState extends State<PhoneField> {
             height: AppConstants.formFieldHeight,
             onPressed: widget.onPhoneCodePressed,
             child: Center(
-              child: XText('+${widget.phoneCode}'),
+              child: Text('+${widget.phoneCode}'),
             ),
           ),
           const VerticalDivider(width: 1),

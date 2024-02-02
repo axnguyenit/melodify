@@ -151,21 +151,23 @@ class _SMSVerificationState extends State<SMSVerification> with StateMixin {
           animation: _countDownNotifier,
           builder: (_, __) {
             if (_countDownNotifier.value > 0) {
-              return XText.bodySmall(
+              return Text(
                 context.translate(
                   Strings.resendInXSeconds,
                   params: [_countDownNotifier.value],
                 ),
+                style: context.bodySmall,
               );
             }
 
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                XText.bodySmall(
+                Text(
                   context.translate(
                     Strings.doNotReceiveCode,
                   ),
+                  style: context.bodySmall,
                 ),
                 const SizedBox(width: 4),
                 XLinkButton(

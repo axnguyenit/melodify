@@ -7,29 +7,21 @@ enum AlertSeverity {
   error;
 
   Color get color {
-    switch (this) {
-      case AlertSeverity.info:
-        return Palette.information;
-      case AlertSeverity.success:
-        return Palette.positive;
-      case AlertSeverity.warning:
-        return Palette.warning;
-      case AlertSeverity.error:
-        return Palette.negative;
-    }
+    return switch (this) {
+      AlertSeverity.info => Palette.information,
+      AlertSeverity.success => Palette.positive,
+      AlertSeverity.warning => Palette.warning,
+      AlertSeverity.error => Palette.negative,
+    };
   }
 
   IconData get icon {
-    switch (this) {
-      case AlertSeverity.info:
-        return Icons.info_rounded;
-      case AlertSeverity.success:
-        return Icons.check_circle_rounded;
-      case AlertSeverity.warning:
-        return Icons.warning_rounded;
-      case AlertSeverity.error:
-        return Icons.error_rounded;
-    }
+    return switch (this) {
+      AlertSeverity.info => Icons.info_rounded,
+      AlertSeverity.success => Icons.check_circle_rounded,
+      AlertSeverity.warning => Icons.warning_rounded,
+      AlertSeverity.error => Icons.error_rounded,
+    };
   }
 }
 
@@ -38,38 +30,30 @@ enum AlertVariant {
   solid;
 
   Color get color {
-    switch (this) {
-      case AlertVariant.simple:
-        return Palette.information;
-      case AlertVariant.solid:
-        return Palette.positive;
-    }
+    return switch (this) {
+      AlertVariant.simple => Palette.information,
+      AlertVariant.solid => Palette.positive,
+    };
   }
 
   Color backgroundColor(Color color) {
-    switch (this) {
-      case AlertVariant.simple:
-        return color.withOpacity(0.16);
-      case AlertVariant.solid:
-        return color;
-    }
+    return switch (this) {
+      AlertVariant.simple => color.withOpacity(0.16),
+      AlertVariant.solid => color,
+    };
   }
 
   Color textColor(BuildContext context, Color color) {
-    switch (this) {
-      case AlertVariant.simple:
-        return color;
-      case AlertVariant.solid:
-        return Colors.white;
-    }
+    return switch (this) {
+      AlertVariant.simple => color,
+      AlertVariant.solid => Colors.white,
+    };
   }
 
   Color iconColor(Color color) {
-    switch (this) {
-      case AlertVariant.simple:
-        return color;
-      case AlertVariant.solid:
-        return Colors.white;
-    }
+    return switch (this) {
+      AlertVariant.simple => color,
+      AlertVariant.solid => Colors.white,
+    };
   }
 }

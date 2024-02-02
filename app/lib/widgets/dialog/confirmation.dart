@@ -41,7 +41,10 @@ class Confirmation extends StatelessWidget {
                       height: AppConstants.formFieldHeight,
                       borderRadius: BorderRadius.zero,
                       child: Center(
-                        child: XText.labelMedium(cancelTitle ?? 'Cancel'),
+                        child: Text(
+                          cancelTitle ?? 'Cancel',
+                          style: context.labelMedium,
+                        ),
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -54,7 +57,10 @@ class Confirmation extends StatelessWidget {
                       height: AppConstants.formFieldHeight,
                       borderRadius: BorderRadius.zero,
                       child: Center(
-                        child: XText.labelMedium(okTitle ?? 'OK'),
+                        child: Text(
+                          okTitle ?? 'OK',
+                          style: context.labelMedium,
+                        ),
                       ),
                       onPressed: () {
                         Navigator.of(context).pop(true);

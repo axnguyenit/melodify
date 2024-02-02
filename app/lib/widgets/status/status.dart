@@ -2,7 +2,6 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:melodify/constants/constants.dart';
 import 'package:melodify/theme/theme.dart';
-import 'package:melodify/widgets/widgets.dart';
 
 enum XStatusType {
   positive,
@@ -61,8 +60,8 @@ class XStatus extends StatelessWidget {
           // ),
           if (label.isNotNullOrEmpty) ...[
             const SizedBox(width: 8),
-            XText.bodySmall(
-              label,
+            Text(
+              label!,
               style: context.bodyMedium?.copyWith(
                 color: labelColor,
               ),

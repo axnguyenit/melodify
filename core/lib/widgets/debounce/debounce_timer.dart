@@ -6,16 +6,16 @@ import 'dart:ui';
 ///
 /// [delay] - delay time, default value is 300 milliseconds
 class DebounceTimer {
-  final Duration? delay;
+  final Duration delay;
 
   Timer? _timer;
 
-  DebounceTimer({this.delay});
+  DebounceTimer({this.delay = const Duration(milliseconds: 300)});
 
   /// Wait time, and call callback when time is elapsed
   void debounce(VoidCallback callback) {
     if (_timer?.isActive == true) _timer!.cancel();
-    _timer = Timer(delay ?? const Duration(milliseconds: 300), () {
+    _timer = Timer(delay, () {
       _timer!.cancel();
       callback();
     });

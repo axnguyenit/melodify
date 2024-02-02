@@ -203,7 +203,7 @@ class _XDropdownState<T> extends State<XDropdown<T>>
       return widget.itemBuilder(context, widget.selectedValue as T);
     }
 
-    return XText(
+    return Text(
       widget.placeholder,
       style: (widget.placeholderStyle ?? context.bodyMedium)!.copyWith(
         color: hasSelectedValue ? context.textColor : context.disabledColor,
@@ -281,8 +281,8 @@ class _XDropdownState<T> extends State<XDropdown<T>>
                         color:
                             widget.labelBackground ?? context.backgroundColor,
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: XText.labelSmall(
-                          widget.label,
+                        child: Text(
+                          widget.label!,
                           style: (widget.labelStyle ?? context.labelSmall)
                               ?.copyWith(
                             fontSize: 10.5,

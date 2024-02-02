@@ -78,15 +78,12 @@ class XTextField extends StatefulWidget {
 
 class _XTextFieldState extends State<XTextField> {
   late final FocusNode _focusNode;
-  late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
 
     _focusNode = widget.focusNode ?? FocusNode();
-    _controller =
-        widget.controller ?? TextEditingController(text: widget.initialValue);
   }
 
   @override
@@ -96,32 +93,30 @@ class _XTextFieldState extends State<XTextField> {
     super.dispose();
   }
 
-  @override
-  void didUpdateWidget(covariant XTextField oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  // @override
+  // void didUpdateWidget(covariant XTextField oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.initialValue != widget.initialValue) {
-      _controller.text = widget.initialValue ?? '';
-    }
-  }
+  //   if (oldWidget.initialValue != widget.initialValue) {
+  //     _controller.text = widget.initialValue ?? '';
+  //   }
+  // }
 
   Row _buildSuffixIcon() {
-    final isEditing = _focusNode.hasFocus && _controller.text.isNotEmpty;
-
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        if (isEditing && widget.enabledClear) ...[
-          XIconButton(
-            onPressed: _controller.clear,
-            icon: Icon(
-              Icons.clear,
-              size: 20,
-              color: context.iconColor,
-            ),
-          )
-        ],
+        // if (isEditing && widget.enabledClear) ...[
+        //   XIconButton(
+        //     onPressed: _controller.clear,
+        //     icon: Icon(
+        //       Icons.clear,
+        //       size: 20,
+        //       color: context.iconColor,
+        //     ),
+        //   )
+        // ],
         if (widget.suffixIcon != null) ...[
           widget.suffixIcon!,
         ],
@@ -132,7 +127,7 @@ class _XTextFieldState extends State<XTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: _controller,
+      controller: widget.controller,
       focusNode: _focusNode,
       scrollPadding: widget.scrollPadding,
       inputFormatters: widget.inputFormatters,

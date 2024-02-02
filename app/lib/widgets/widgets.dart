@@ -1,4 +1,5 @@
 export 'alert/alert.dart';
+export 'app_bar/x_app_bar.dart';
 export 'app_icon/app_icon.dart';
 export 'app_image/app_image.dart';
 export 'avatar/avatar.dart';
@@ -16,5 +17,4 @@ export 'image/x_image_network.dart';
 export 'loading/loading.dart';
 export 'span_label/span_label.dart';
 export 'status/status.dart';
-export 'text/x_text.dart';
 export 'toast/toast.dart';

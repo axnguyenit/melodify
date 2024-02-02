@@ -68,7 +68,7 @@ class XAvatar extends StatelessWidget {
       ),
       child: imageUrl == null
           ? _buildAvatarWithoutImage(context)
-          : XImageNetwork(
+          : XNetworkImage(
               imageUrl: imageUrl!,
               borderRadius: _borderRadius,
               width: size,

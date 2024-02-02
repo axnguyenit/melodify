@@ -65,7 +65,7 @@ class _ProfileCreationScreenState
   @override
   PreferredSizeWidget get buildAppBar {
     return AppBar(
-      title: XText.titleMedium(
+      title: Text(
         context.translate(
           Strings.signUp,
         ),

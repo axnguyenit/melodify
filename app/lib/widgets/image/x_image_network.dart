@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class XImageNetwork extends StatelessWidget {
-  const XImageNetwork({
+class XNetworkImage extends StatelessWidget {
+  const XNetworkImage({
     super.key,
     required this.imageUrl,
     this.width,
@@ -31,6 +31,13 @@ class XImageNetwork extends StatelessWidget {
       imageUrl: imageUrl,
       width: width,
       height: height,
+      placeholder: (context, url) {
+        return Image.asset(
+          'assets/images/error_image.png',
+          width: width ?? 100.0,
+          height: height ?? 100.0,
+        );
+      },
       errorWidget: (context, url, error) => Image.asset(
         'assets/images/error_image.png',
         width: width ?? 100.0,

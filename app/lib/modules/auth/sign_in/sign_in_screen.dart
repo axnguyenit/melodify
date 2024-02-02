@@ -43,7 +43,7 @@ class _SignInScreenState extends BaseScreenWithBloc<SignInScreen, SignInBloc> {
   @override
   PreferredSizeWidget get buildAppBar {
     return AppBar(
-      title: XText.titleMedium(
+      title: Text(
         context.translate(
           Strings.signIn,
         ),
@@ -227,10 +227,11 @@ class _SignInScreenState extends BaseScreenWithBloc<SignInScreen, SignInBloc> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    XText.bodySmall(
+                    Text(
                       context.translate(
                         Strings.doNotHaveAccount,
                       ),
+                      style: context.bodySmall,
                     ),
                     const SizedBox(width: 4),
                     XLinkButton(

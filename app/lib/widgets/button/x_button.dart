@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:melodify/constants/constants.dart';
 import 'package:melodify/theme/theme.dart';
 
-import '../widgets.dart';
-
 enum XButtonVariant { outline, solid, text }
 
 enum XButtonSize {
@@ -11,26 +9,25 @@ enum XButtonSize {
   medium;
 
   EdgeInsetsGeometry get padding {
-    double vertical = 0.0, horizontal = 0.0;
-    switch (this) {
-      case XButtonSize.small:
-        vertical = 10.0;
-        horizontal = 16.0;
-      case XButtonSize.medium:
-        vertical = 14.0;
-        horizontal = 22.0;
-    }
+    final [vertical, horizontal] = switch (this) {
+      XButtonSize.small => [10.0, 16.0],
+      XButtonSize.medium => [14.0, 22.0],
+    };
 
     return EdgeInsets.symmetric(vertical: vertical, horizontal: horizontal);
   }
 
-  XText xText(BuildContext context, String title, [Color? color]) {
-    switch (this) {
-      case XButtonSize.small:
-        return XText.labelSmall(title).customWith(context, color: color);
-      case XButtonSize.medium:
-        return XText.labelMedium(title).customWith(context, color: color);
-    }
+  Text text(BuildContext context, String title, [Color? color]) {
+    return switch (this) {
+      XButtonSize.small => Text(
+          title,
+          style: context.labelSmall?.copyWith(color: color),
+        ),
+      XButtonSize.medium => Text(
+          title,
+          style: context.labelMedium?.copyWith(color: color),
+        ),
+    };
   }
 }
 
@@ -158,65 +155,58 @@ class XButton extends StatelessWidget {
   Color _buildTextColor(BuildContext context, bool disabled) {
     if (disabled || loading) return context.disabledColor;
 
-    switch (variant) {
-      case XButtonVariant.solid:
-        return Palette.text.primaryDark;
-      case XButtonVariant.outline:
-      case XButtonVariant.text:
-        return color ?? context.primaryColor;
-    }
+    return switch (variant) {
+      XButtonVariant.solid => Palette.text.primaryDark,
+      XButtonVariant.outline ||
+      XButtonVariant.text =>
+        color ?? context.primaryColor,
+    };
   }
 
   Color _buildFillColor(BuildContext context, bool disabled) {
     if (disabled || loading) return context.disabledBackgroundColor;
 
-    switch (variant) {
-      case XButtonVariant.solid:
-        return color ?? context.primaryColor;
-      case XButtonVariant.outline:
-      case XButtonVariant.text:
-        return Colors.transparent;
-    }
+    return switch (variant) {
+      XButtonVariant.solid => color ?? context.primaryColor,
+      XButtonVariant.outline || XButtonVariant.text => Colors.transparent,
+    };
   }
 
   Color? _buildHighlightColor(BuildContext context, bool disabled) {
     if (disabled || loading) return context.disabledBackgroundColor;
 
-    switch (variant) {
-      case XButtonVariant.solid:
-        return context.cardColor.withOpacity(0.15);
-      case XButtonVariant.outline:
-      case XButtonVariant.text:
-        return color?.withOpacity(0.15) ??
-            context.primaryColor.withOpacity(0.15);
-    }
+    return switch (variant) {
+      XButtonVariant.solid => context.cardColor.withOpacity(0.15),
+      XButtonVariant.outline ||
+      XButtonVariant.text =>
+        color?.withOpacity(0.15) ?? context.primaryColor.withOpacity(0.15),
+    };
   }
 
   Color _buildBorderColor(BuildContext context, bool disabled) {
     if (disabled || loading) return context.disabledBackgroundColor;
 
-    switch (variant) {
-      case XButtonVariant.solid:
-      case XButtonVariant.outline:
-        return color ?? context.primaryColor;
-      case XButtonVariant.text:
-        return Colors.transparent;
-    }
+    return switch (variant) {
+      XButtonVariant.solid ||
+      XButtonVariant.outline =>
+        color ?? context.primaryColor,
+      XButtonVariant.text => Colors.transparent,
+    };
   }
 
   BorderSide _border(BuildContext context, bool disabled) {
     if (disabled || loading) return BorderSide.none;
 
-    switch (variant) {
-      case XButtonVariant.solid:
-      case XButtonVariant.outline:
-        return BorderSide(
+    return switch (variant) {
+      XButtonVariant.solid || XButtonVariant.outline => BorderSide(
           width: 1.0,
-          color: _buildBorderColor(context, disabled),
-        );
-      case XButtonVariant.text:
-        return BorderSide.none;
-    }
+          color: _buildBorderColor(
+            context,
+            disabled,
+          ),
+        ),
+      XButtonVariant.text => BorderSide.none,
+    };
   }
 
   Widget _buildLoadingIcon(Color color) {
@@ -241,7 +231,12 @@ class XButton extends StatelessWidget {
           prefixIcon!,
           const SizedBox(width: 8),
         ],
-        XText.labelLarge(title).customWith(context, color: textColor),
+        Text(
+          title ?? '',
+          style: context.labelLarge?.copyWith(
+            color: textColor,
+          ),
+        ),
         if (suffixIcon != null && !loading) ...[
           const SizedBox(width: 8),
           suffixIcon!,

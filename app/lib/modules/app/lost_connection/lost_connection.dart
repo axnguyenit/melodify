@@ -4,8 +4,10 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:melodify/blocs/blocs.dart';
+import 'package:melodify/constants/constants.dart';
 import 'package:melodify/di/di.dart';
 import 'package:melodify/global/global.dart';
+import 'package:melodify/modules/mixins/mixins.dart';
 import 'package:melodify/widgets/widgets.dart';
 import 'package:resources/resources.dart';
 
@@ -18,46 +20,61 @@ class LostConnection extends StatefulWidget {
   State<LostConnection> createState() => _LostConnectionState();
 }
 
-class _LostConnectionState extends State<LostConnection>
-    with WidgetsBindingObserver {
+class _LostConnectionState extends State<LostConnection> with StateMixin {
   bool _isPopupShowing = false;
-  final connectivityBloc = di.get<ConnectivityBloc>();
+  final _connectivityBloc = di.get<ConnectivityBloc>();
+  late final AppLifecycleListener _appLifecycleListener;
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addObserver(this);
+    _appLifecycleListener = AppLifecycleListener(
+      onInactive: () {
+        log.warning('onInactive');
+      },
+      onResume: () {
+        log.warning('onResume');
+        if (!_connectivityBloc.state.isConnected && !_isPopupShowing) {
+          _showNoConnectionPopup();
+        } else {
+          _connectivityChecked();
+        }
+      },
+      onHide: () {
+        log.warning('onHide');
+      },
+      onShow: () {
+        log.warning('onShow');
+      },
+      onRestart: () {
+        log.warning('onRestart');
+      },
+      onPause: () {
+        log.warning('onPause');
+      },
+      onDetach: () {
+        log.warning('onDetach');
+      },
+    );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    postFrame(() async {
       await Future.delayed(const Duration(seconds: 4));
-      if (!connectivityBloc.state.isConnected && !_isPopupShowing) {
+      if (!_connectivityBloc.state.isConnected && !_isPopupShowing) {
         await _showNoConnectionPopup();
       }
     });
   }
 
-  void _connectivityChecked() {
-    connectivityBloc.add(ConnectivityChecked());
+  @override
+  void dispose() {
+    _appLifecycleListener.dispose();
+
+    super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        {
-          if (!connectivityBloc.state.isConnected && !_isPopupShowing) {
-            _showNoConnectionPopup();
-          } else {
-            _connectivityChecked();
-          }
-        }
-        break;
-      case AppLifecycleState.inactive:
-        {}
-        break;
-      default:
-    }
+  void _connectivityChecked() {
+    _connectivityBloc.add(ConnectivityChecked());
   }
 
   Future<void> _showNoConnectionPopup() async {
@@ -81,7 +98,7 @@ class _LostConnectionState extends State<LostConnection>
           await _showNoConnectionPopup();
         } else {
           if (_isPopupShowing) {
-            Navigator.of(Routing().context).pop();
+            Routing().pop();
           }
         }
       },

@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 mixin StateMixin<T extends StatefulWidget> on State<T> {
-  void postFrame(VoidCallback callback) {
+  void postFrame(FutureOr<void> Function() callback) {
     return WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
-        if (mounted) callback();
+        if (mounted) await callback();
       },
     );
   }

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:melodify/constants/constants.dart';
-import 'package:melodify/widgets/text/x_text.dart';
 
 import 'ink_well_button.dart';
 
 class XLinkButton extends StatelessWidget {
   final Color color;
-  final String? title;
-  final Widget? child;
+  final String title;
   final double? fontSize;
   final TextStyle? textStyle;
   final List<Shadow>? shadows;
@@ -18,8 +16,7 @@ class XLinkButton extends StatelessWidget {
   const XLinkButton({
     super.key,
     this.color = const Color(0xFF0571FA),
-    this.title,
-    this.child,
+    required this.title,
     this.shadows,
     this.fontSize,
     this.textStyle,
@@ -32,7 +29,7 @@ class XLinkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWellButton(
       onPressed: onPressed,
-      child: XText(
+      child: Text(
         title,
         style: context.bodyMedium?.copyWith(
           fontSize: fontSize,

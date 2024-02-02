@@ -14,12 +14,12 @@ typedef DebounceTimerBuilder = Widget Function(
 /// Widget provide debounce function
 class DebounceBuilder extends StatefulWidget {
   final DebounceTimerBuilder builder;
-  final Duration? delay;
+  final Duration delay;
 
   const DebounceBuilder({
     required this.builder,
     super.key,
-    this.delay,
+    this.delay = const Duration(milliseconds: 300),
   });
 
   @override
@@ -54,7 +54,7 @@ class _DebounceBuilderState extends State<DebounceBuilder> {
   void didUpdateWidget(covariant DebounceBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.delay?.inMicroseconds != widget.delay?.inMicroseconds) {
+    if (oldWidget.delay.inMicroseconds != widget.delay.inMicroseconds) {
       _timer.dispose();
       _initTimer();
     }

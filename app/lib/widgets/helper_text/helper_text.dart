@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:melodify/constants/constants.dart';
 import 'package:melodify/theme/theme.dart';
-import 'package:melodify/widgets/widgets.dart';
 
 part 'helper_text_status.dart';
 
@@ -18,9 +18,11 @@ class HelperText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return XText.bodySmall(
+    return Text(
       message,
-      style: style,
-    ).customWith(context, color: status.color);
+      style: (style ?? context.bodySmall)?.copyWith(
+        color: status.color,
+      ),
+    );
   }
 }
