@@ -16,12 +16,14 @@ import 'package:melodify/blocs/language/language_bloc.dart' as _i4;
 import 'package:melodify/blocs/loading/loading_bloc.dart' as _i6;
 import 'package:melodify/blocs/profile_creation/profile_creation_bloc.dart'
     as _i9;
-import 'package:melodify/blocs/session/session_bloc.dart' as _i10;
-import 'package:melodify/blocs/sign_in/sign_in_bloc.dart' as _i11;
-import 'package:melodify/blocs/sign_up/sign_up_bloc.dart' as _i12;
+import 'package:melodify/blocs/query_suggestion/query_suggestion_bloc.dart'
+    as _i10;
+import 'package:melodify/blocs/session/session_bloc.dart' as _i11;
+import 'package:melodify/blocs/sign_in/sign_in_bloc.dart' as _i12;
+import 'package:melodify/blocs/sign_up/sign_up_bloc.dart' as _i13;
 import 'package:melodify/blocs/sms_verification/sms_verification_bloc.dart'
-    as _i13;
-import 'package:melodify/blocs/toast/toast_bloc.dart' as _i14;
+    as _i14;
+import 'package:melodify/blocs/toast/toast_bloc.dart' as _i15;
 import 'package:melodify/global/local_notification.dart' as _i7;
 import 'package:melodify/global/messaging.dart' as _i8;
 
@@ -46,21 +48,24 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i5.UserService>(),
           gh<_i5.AuthService>(),
         ));
-    gh.lazySingleton<_i10.SessionBloc>(() => _i10.SessionBloc(
+    gh.factory<_i10.QuerySuggestionBloc>(
+        () => _i10.QuerySuggestionBloc(gh<_i5.QuerySuggestionService>()));
+    gh.lazySingleton<_i11.SessionBloc>(() => _i11.SessionBloc(
           gh<_i5.AuthService>(),
           gh<_i5.UserService>(),
           gh<_i5.SessionService>(),
+          gh<_i5.YoutubeMusicService>(),
         ));
-    gh.factory<_i11.SignInBloc>(() => _i11.SignInBloc(
+    gh.factory<_i12.SignInBloc>(() => _i12.SignInBloc(
           gh<_i5.AuthService>(),
           gh<_i5.UserService>(),
         ));
-    gh.factory<_i12.SignUpBloc>(() => _i12.SignUpBloc(gh<_i5.AuthService>()));
-    gh.factory<_i13.SmsVerificationBloc>(() => _i13.SmsVerificationBloc(
+    gh.factory<_i13.SignUpBloc>(() => _i13.SignUpBloc(gh<_i5.AuthService>()));
+    gh.factory<_i14.SmsVerificationBloc>(() => _i14.SmsVerificationBloc(
           gh<_i5.AuthService>(),
           gh<_i5.UserService>(),
         ));
-    gh.lazySingleton<_i14.ToastBloc>(() => _i14.ToastBloc());
+    gh.lazySingleton<_i15.ToastBloc>(() => _i15.ToastBloc());
     return this;
   }
 }

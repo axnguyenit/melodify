@@ -21,6 +21,7 @@ dependencies:
   injectable: 2.3.2
   json_annotation: 4.8.1
   json_serializable: 6.7.1
+  youtube_explode_dart: 2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -42,6 +42,8 @@ dependencies:
   flutter_image_compress: 2.1.0
   image_picker: 1.0.7
   file_picker: 6.1.1
+  audio_service: 0.18.12
+  youtube_explode_dart: 2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +57,7 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/icons/
   fonts:
     - family: 'Public Sans'
       fonts:

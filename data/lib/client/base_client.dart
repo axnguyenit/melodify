@@ -57,7 +57,7 @@ abstract class BaseClient {
     ]);
   }
 
-  Future<Map<String, dynamic>> _call(
+  Future<dynamic> _call(
     String method,
     String path, {
     Map<String, dynamic>? data,
@@ -76,7 +76,7 @@ abstract class BaseClient {
         () async {
           final response = await _client
               .send(request)
-              .timeout(const Duration(seconds: 5))
+              .timeout(const Duration(seconds: 30))
               .then(Response.fromStream);
           return _responseInterceptor(response);
         },
@@ -106,7 +106,6 @@ abstract class BaseClient {
   }
 
   void _logResponse(Response response) {
-    final responseBody = jsonDecode(response.body);
     final uri = response.request?.url;
     final method = response.request?.method;
     log.logMapAsTable(
@@ -118,65 +117,53 @@ abstract class BaseClient {
       header: 'RESPONSE',
     );
 
-    if (responseBody is Map) {
-      log.logMap(responseBody);
-    } else if (responseBody is Uint8List) {
-      log.logUint8List(responseBody);
-    } else if (responseBody is List) {
-      log
-        ..topDivider()
-        ..logList(responseBody)
-        ..bottomDivider();
-    } else {
-      log.logBlock(responseBody.toString());
-    }
-  }
-
-  Map<String, dynamic> _responseInterceptor(Response response) {
-    // _client
-    //     .send(response.request!)
-    //     .timeout(const Duration(seconds: 30))
-    //     .then(Response.fromStream);
-    _logResponse(response);
-    return jsonDecode(response.body) as Map<String, dynamic>;
-    // final responseJson = jsonDecode(response.body);
-    // TODO(kha): Update Based on API Response Definition
-    // final errorMessage = responseJson['error']?['message'] ?? '';
-
-    // log.warning('API RESPONSE: ', messages: [
-    //   '─ STATUS CODE ──> ${response.statusCode}',
-    //   '─ BODY ──> ${response.body}',
-    // ]);
-
-    // switch (response.statusCode) {
-    //   case 200:
-    // TODO(kha): Update Based on API Response Definition
-    //     return responseJson['data'];
-    //   case 400:
-    //     throw BadRequestException(errorMessage);
-    //   case 401:
-    //     // handle refresh token
-    //     // _client.send(response.request!);
-    //   case 403:
-    //     {
-    //       log.error('AUTHORIZATION: ', messages: [
-    //         '─ ACCESS TOKEN ──> ${_appPreferences?.accessToken}',
-    //         '─ PROFILE TOKEN ──> ${_appPreferences?.profileToken}',
-    //       ]);
-
-    //       throw UnauthorizedException(errorMessage);
-    //     }
-    //   case 404:
-    //     throw NotFoundException(responseJson['error']);
-    //   case 500:
-    //   case 501:
-    //     throw ServerErrorException(errorMessage);
-    //   default:
-    //     throw AppException.fromJson(responseJson['error']);
+    // final responseBody = jsonDecode(response.body);
+    // if (responseBody is Map) {
+    //   log.logMap(responseBody);
+    // } else if (responseBody is Uint8List) {
+    //   log.logUint8List(responseBody);
+    // } else if (responseBody is List) {
+    //   log
+    //     ..topDivider()
+    //     ..logList(responseBody)
+    //     ..bottomDivider();
+    // } else {
+    //   log.logBlock(responseBody.toString());
     // }
   }
 
-  Future<Map<String, dynamic>> get(
+  dynamic _responseInterceptor(Response response) {
+    _logResponse(response);
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        return jsonDecode(response.body);
+      case 400:
+        throw BadRequestException('BadRequestException');
+      case 401:
+      // handle refresh token
+      // _client.send(response.request!);
+      case 403:
+        {
+          log.error('AUTHORIZATION: ', messages: [
+            '─ ACCESS TOKEN ──> ${_appPreferences?.accessToken}',
+            '─ PROFILE TOKEN ──> ${_appPreferences?.profileToken}',
+          ]);
+
+          throw UnauthorizedException('UnauthorizedException');
+        }
+      case 404:
+        throw NotFoundException(response.body.toString());
+      case 500:
+      case 501:
+        throw ServerErrorException('ServerErrorException');
+      default:
+        throw AppException.fromJson();
+    }
+  }
+
+  Future<dynamic> get(
     String path, {
     Map<String, dynamic>? queries,
     Map<String, String>? headers,
@@ -189,7 +176,7 @@ abstract class BaseClient {
     );
   }
 
-  Future<Map<String, dynamic>> post(
+  Future<dynamic> post(
     String path, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queries,
@@ -204,7 +191,7 @@ abstract class BaseClient {
     );
   }
 
-  Future<Map<String, dynamic>> put(
+  Future<dynamic> put(
     String path, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queries,
@@ -219,7 +206,7 @@ abstract class BaseClient {
     );
   }
 
-  Future<Map<String, dynamic>> delete(
+  Future<dynamic> delete(
     String path, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queries,
@@ -253,7 +240,7 @@ abstract class BaseClient {
     return request.send();
   }
 
-  Future<Map<String, dynamic>> uploadFileWithProgress(
+  Future<dynamic> uploadFileWithProgress(
     String path, {
     Map<String, dynamic>? data,
     required MultipartFile file,

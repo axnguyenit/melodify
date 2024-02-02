@@ -50,4 +50,5 @@ class _Blocs {
   final signUp = const Key('sign_up_bloc');
   final smsVerification = const Key('sms_verification_bloc');
   final profileCreation = const Key('profile_creation_bloc');
+  final querySuggestion = const Key('query_suggestion_bloc');
 }

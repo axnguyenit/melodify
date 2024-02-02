@@ -18,19 +18,19 @@ class FetchDataException extends ApiException {
 }
 
 class BadRequestException extends ApiException {
-  BadRequestException([message]) : super(message, 'Invalid Request: ');
+  BadRequestException(String message) : super(message, 'Invalid Request: ');
 }
 
 class UnauthorizedException extends ApiException {
-  UnauthorizedException([message]) : super(message, 'Unauthorized: ');
+  UnauthorizedException(String message) : super(message, 'Unauthorized: ');
 }
 
 class NotFoundException extends ApiException {
-  NotFoundException([message]) : super(message, 'Not Found: ');
+  NotFoundException(String message) : super(message, 'Not Found: ');
 }
 
 class ServerErrorException extends ApiException {
-  ServerErrorException([message]) : super(message, 'Server Error: ');
+  ServerErrorException(String message) : super(message, 'Server Error: ');
 }
 
 class InvalidInputException extends ApiException {

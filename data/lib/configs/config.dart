@@ -18,4 +18,10 @@ class Config {
   String get primaryLanguage => dotenv.get('PRIMARY_LANGUAGE');
 
   String get secondaryLanguage => dotenv.get('SECONDARY_LANGUAGE');
+
+  String get querySuggestionUrl => dotenv.get('QUERY_SUGGESTION_URL');
+
+  String get youtubeMusicUrl => dotenv.get('YOUTUBE_MUSIC_URL');
+
+  String get youtubeMusicApiKey => dotenv.get('YOUTUBE_MUSIC_API_KEY');
 }

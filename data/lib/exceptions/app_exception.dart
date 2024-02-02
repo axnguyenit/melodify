@@ -36,8 +36,9 @@ class AppException implements Exception {
     required this.errors,
   });
 
-  factory AppException.fromJson(Map<String, dynamic> json) =>
-      _$AppExceptionFromJson(json);
+  factory AppException.fromJson() {
+    return AppException(message: 'App Exception', errors: []);
+  }
 
   @override
   String toString() {
