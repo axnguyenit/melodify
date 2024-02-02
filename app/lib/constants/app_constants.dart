@@ -17,7 +17,7 @@ class AppConstants {
 
   static const maximumUploadFileSize = 4 * 1024 * 1024;
 
-  static const appPadding = 18.0;
+  static const appPadding = 16.0;
 
   static const formFieldHeight = 48.0;
 

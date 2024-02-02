@@ -38,4 +38,6 @@ class Strings {
   static const resendInXSeconds = 'resend_in_x_seconds';
   static const smsVerification = 'smsVerification';
   static const invalidVerificationCode = 'invalidVerificationCode';
+  static const library = 'library';
+  static const settings = 'settings';
 }

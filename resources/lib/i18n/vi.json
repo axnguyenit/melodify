@@ -32,5 +32,7 @@
   "do_not_receive_code": "Bạn không nhận được mã?",
   "resend_in_x_seconds": "Gửi lại sau %d giây",
   "smsVerification": "Xác minh SMS",
-  "invalidVerificationCode": "Mã xác minh không hợp lệ"
+  "invalidVerificationCode": "Mã xác minh không hợp lệ",
+  "library": "Thư viện",
+  "settings": "Cài đặt"
 }
