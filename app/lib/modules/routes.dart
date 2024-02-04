@@ -4,9 +4,10 @@ import 'auth/sign_in/sign_in_screen.dart';
 import 'auth/sign_up/profile_creation_screen.dart';
 import 'auth/sign_up/sign_up_screen.dart';
 import 'auth/sign_up/sms_verification_screen.dart';
+import 'dashboard/dashboard.dart';
 import 'error/error_screen.dart';
-import 'home/home_screen.dart';
 import 'splash/splash_screen.dart';
+import 'search/search_screen.dart';
 
 enum RoutingAnimation {
   fade,
@@ -29,6 +30,7 @@ class Routes {
   static const signUp = '/sign-up';
   static const smsVerification = '/sms-verification';
   static const profileCreation = '/profile-creation';
+  static const search = '/search';
 
   static Route generateRoute(RouteSettings settings) {
     final RouteSettings(:name, :arguments) = settings;
@@ -44,7 +46,7 @@ class Routes {
       case dashboard:
         return _pageBuilder(
           settings: settings,
-          child: const HomeScreen(),
+          child: const DashboardScreen(),
           routingAnimation: RoutingAnimation.fade,
         );
 
@@ -83,6 +85,12 @@ class Routes {
           child: ProfileCreationScreen(
             phone: phone,
           ),
+        );
+
+      case search:
+        return _pageBuilder(
+          settings: settings,
+          child: const SearchScreen(),
         );
 
       // bool isShow = false;

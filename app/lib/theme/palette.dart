@@ -8,8 +8,8 @@ class _Background {
   final Color lightPaper = const Color(0xFFFFFFFF);
 
   // ─────────── DARK MODE ─────────── //
-  final Color darkDefault = const Color(0xFF161C24);
-  final Color darkPaper = const Color(0xFF212B36); // card
+  final Color darkDefault = const Color(0xFF000000);
+  final Color darkPaper = const Color(0xFF1D1D1D); // card
 }
 
 class _TextColor {
@@ -61,7 +61,7 @@ class Palette {
   static const Color grey300 = Color(0xFFDFE3E8);
   static const Color grey400 = Color(0xFFC4CDD5);
   static const Color grey500 = Color(0xFF919EAB);
-  static const Color grey600 = Color(0xFF637381); // Icon ColorØ
+  static const Color grey600 = Color(0xFF637381); // Icon Color
   static const Color grey700 = Color(0xFF454F5B);
   static const Color grey800 = Color(0xFF212B36);
   static const Color grey900 = Color(0xFF161C24);

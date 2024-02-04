@@ -8,8 +8,7 @@ class DarkTheme extends BaseTheme {
   @override
   ThemeData build(BuildContext context) {
     return ThemeData(
-      useMaterial3: true,
-      fontFamily: fontFamily,
+      // fontFamily: fontFamily,
       splashColor: Palette.grey50008,
       highlightColor: Palette.grey50012,
       focusColor: Palette.grey50024,
@@ -68,6 +67,34 @@ class DarkTheme extends BaseTheme {
           padding: MaterialStatePropertyAll(EdgeInsets.zero),
         ),
       ),
+      bottomNavigationBarTheme: bottomNavigationBarThemeData.copyWith(
+        selectedItemColor: Palette.text.primaryDark,
+        unselectedItemColor: Palette.text.primaryDark,
+        backgroundColor: Palette.background.darkPaper,
+      ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: Palette.background.darkPaper,
+        surfaceTintColor: Palette.background.darkPaper,
+      ),
+      chipTheme: const ChipThemeData(
+        side: BorderSide(
+          color: Color(0xFF2E2E2E),
+          width: 1,
+        ),
+        backgroundColor: Color(0xFF1A1A1A),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        elevation: 0,
+        backgroundColor: Palette.background.darkPaper,
+        shadowColor: Colors.transparent,
+        surfaceTintColor: Palette.black.withAlpha(100),
+        modalBarrierColor: Palette.black.withAlpha(100),
+        shape: const RoundedRectangleBorder(),
+      ),
     );
   }
 }
+
+/// card --> 181818
+/// chip background --> 1A1A1A
+/// chip border --> 2E2E2E

@@ -8,12 +8,12 @@ import 'theme_text.dart';
 abstract class BaseTheme {
   ColorScheme get colorScheme => const ColorScheme.light();
 
-  AppBarTheme get appBarTheme => AppBarTheme(
+  AppBarTheme get appBarTheme => const AppBarTheme(
         elevation: 0.0,
         scrolledUnderElevation: 0.0,
         centerTitle: true,
         toolbarTextStyle: TextStyle(
-          fontFamily: fontFamily,
+          // fontFamily: fontFamily,
           fontSize: 20.0,
           fontWeight: FontWeight.w600,
         ),
@@ -47,6 +47,14 @@ abstract class BaseTheme {
 
   InputDecorationTheme get inputDecorationTheme =>
       XInputDecoration.inputDecoration(textTheme);
+
+  BottomNavigationBarThemeData get bottomNavigationBarThemeData =>
+      BottomNavigationBarThemeData(
+        elevation: 0.0,
+        selectedLabelStyle: textTheme.bodySmall,
+        unselectedLabelStyle: textTheme.bodySmall,
+        type: BottomNavigationBarType.fixed,
+      );
 
   DropdownMenuThemeData get dropdownMenuTheme => DropdownMenuThemeData(
         textStyle: textTheme.bodyMedium,

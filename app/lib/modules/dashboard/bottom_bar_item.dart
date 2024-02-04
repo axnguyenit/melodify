@@ -2,22 +2,30 @@ part of 'dashboard.dart';
 
 enum BottomBar {
   home,
-  library,
-  settings;
+  explore,
+  library;
 
   String get _iconPath {
     return switch (this) {
-      BottomBar.home => AppIcons.albumFill,
-      BottomBar.library => AppIcons.mvFill,
-      BottomBar.settings => AppIcons.listSettingsFill,
+      BottomBar.home => AppIcons.homeOutline,
+      BottomBar.explore => AppIcons.exploreOutline,
+      BottomBar.library => AppIcons.libraryOutline,
+    };
+  }
+
+  String get _activeIconPath {
+    return switch (this) {
+      BottomBar.home => AppIcons.homeFill,
+      BottomBar.explore => AppIcons.exploreFill,
+      BottomBar.library => AppIcons.libraryFill,
     };
   }
 
   String get title {
     return switch (this) {
       BottomBar.home => Strings.home,
+      BottomBar.explore => Strings.explore,
       BottomBar.library => Strings.library,
-      BottomBar.settings => Strings.settings,
     };
   }
 
@@ -25,15 +33,15 @@ enum BottomBar {
     return BottomNavigationBarItem(
       icon: AppIcon(
         assetName: _iconPath,
-        color: context.iconColor,
-        width: 20,
-        height: 20,
+        color: context.textColor,
+        width: 24,
+        height: 24,
       ),
       activeIcon: AppIcon(
-        assetName: _iconPath,
+        assetName: _activeIconPath,
         color: context.textColor,
-        width: 20,
-        height: 20,
+        width: 24,
+        height: 24,
       ),
       label: context.translate(title),
     );

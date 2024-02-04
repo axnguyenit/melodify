@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:melodify/constants/constants.dart';
 import 'package:melodify/modules/base/base.dart';
+import 'package:melodify/modules/explore/explore_screen.dart';
 import 'package:melodify/modules/home/home_screen.dart';
 import 'package:melodify/modules/library/library_screen.dart';
-import 'package:melodify/modules/settings/settings_screen.dart';
 import 'package:melodify/widgets/widgets.dart';
 import 'package:resources/resources.dart';
 
@@ -51,8 +51,8 @@ class _DashboardScreenState extends BaseScreen<DashboardScreen> {
       index: _selectedIndex,
       children: const [
         HomeScreen(),
+        ExploreScreen(),
         LibraryScreen(),
-        SettingsScreen(),
       ],
     );
   }

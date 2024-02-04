@@ -1,10 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:melodify/blocs/blocs.dart';
-import 'package:melodify/configs/config.dart';
 import 'package:melodify/constants/constants.dart';
-import 'package:melodify/di/di.dart';
 import 'package:melodify/modules/base/base.dart';
+import 'package:melodify/modules/routes.dart';
+import 'package:melodify/theme/palette.dart';
 import 'package:melodify/widgets/widgets.dart';
 import 'package:resources/resources.dart';
 
@@ -16,110 +16,162 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends BaseScreen<HomeScreen> {
-  final languageBloc = di.get<LanguageBloc>();
-
-  @override
-  PreferredSizeWidget? get buildAppBar {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      title: Text(context.translate(Strings.home)),
-    );
-  }
+  String? _selectedTab;
+  final _tabs = [
+    'Energise',
+    'Mood',
+    'Relax',
+    'Party',
+    'Work out',
+    'Commute',
+    'Romance',
+    'Sad',
+    'Focus',
+    'Sleep',
+  ];
 
   @override
   Widget get buildBody {
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const AppIcon(assetName: CommonIcons.stripe),
-                const Icon(Icons.ac_unit_rounded),
-                XText.headlineMedium(context.translate(Strings.home)),
-                XText.headlineMedium('Hello ${authUser.firstName}'),
-                Container(
-                  width: AppConstants.screenSize.width * 0.5,
-                  height: 150,
-                  padding: const EdgeInsets.all(40.0),
-                  decoration: BoxDecoration(
-                    color: context.disabledBackgroundColor,
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: XText.titleMedium(
-                    'Disabled',
-                    style: context.titleMedium?.copyWith(
-                      color: context.disabledColor,
-                    ),
-                  ),
-                ),
-                BlocBuilder<LanguageBloc, LanguageState>(
-                  builder: (context, state) {
-                    return SwitchListTile.adaptive(
-                      title: XText(
-                        context.translate(Strings.english),
-                      ),
-                      // tileColor: AppColors.current.primaryColor,
-                      value: state.locale.languageCode ==
-                          Config().secondaryLanguage,
-                      onChanged: (value) {
-                        languageBloc.add(
-                          LanguageUpdated(
-                            value
-                                ? state.supportedLocales.first
-                                : state.supportedLocales.last,
-                          ),
-                        );
-                      },
-                    );
+    return SafeArea(
+      child: NestedScrollView(
+        physics: const BouncingScrollPhysics(),
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              floating: true,
+              automaticallyImplyLeading: false,
+              centerTitle: false,
+              title: Text(context.translate(Strings.home)),
+              actions: [
+                XIconButton(
+                  icon: const Icon(Icons.search_rounded),
+                  onPressed: () {
+                    router.pushNamed(Routes.search);
                   },
                 ),
-                Container(
-                  width: AppConstants.screenSize.width * 0.8,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: context.cardColor,
-                    borderRadius: BorderRadius.circular(16.0),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(0, 0),
-                        blurRadius: 2,
-                        spreadRadius: 0,
-                        color: context.shadowColor.withOpacity(0.2),
-                      ),
-                      BoxShadow(
-                        offset: const Offset(0.0, 12.0),
-                        blurRadius: 24.0,
-                        spreadRadius: -4.0,
-                        color: context.shadowColor.withOpacity(0.12),
-                      ),
-                    ],
+                XIconButton(
+                  icon: const XAvatar(
+                    name: 'Luly',
+                    size: 28,
                   ),
-                  child: Card(
-                    child: Container(
-                      width: AppConstants.screenSize.width * 0.5,
-                      height: 150,
-                      padding: const EdgeInsets.all(40.0),
-                      child: const Text('Hello'),
-                    ),
-                  ),
+                  onPressed: () {
+                    router.pushNamed(Routes.search);
+                  },
                 ),
-                const SizedBox(height: 24),
               ],
             ),
-          ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _SliverAppBarDelegate(
+                minHeight: 36 + horizontalPadding * 2,
+                maxHeight: 36 + horizontalPadding * 2,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: context.backgroundColor,
+                  ),
+                  child: ListView.separated(
+                    itemCount: _tabs.length,
+                    physics: const BouncingScrollPhysics(),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: horizontalPadding),
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(width: 12);
+                    },
+                    itemBuilder: (context, index) {
+                      final selected = _tabs[index] == _selectedTab;
+
+                      return ActionChip(
+                        label: Text(
+                          _tabs[index],
+                          style: context.labelLarge?.copyWith(
+                            color: selected ? Palette.black : null,
+                          ),
+                        ),
+                        backgroundColor:
+                            selected ? context.chipSelectedBackground : null,
+                        onPressed: () {
+                          setState(() {
+                            if (selected) {
+                              _selectedTab = null;
+                            } else {
+                              _selectedTab = _tabs[index];
+                            }
+                          });
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ];
+        },
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: AppConstants.appPadding),
+              child: InkWellButton(
+                child: Text(
+                  'Recently played',
+                  style: context.titleMedium,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/recent');
+                },
+              ),
+            ),
+            const SizedBox(height: 4),
+
+            Padding(
+              padding: const EdgeInsets.only(left: AppConstants.appPadding),
+              child: InkWellButton(
+                child: Text('Recently played', style: context.titleMedium),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/recent');
+                },
+              ),
+            ),
+            const SizedBox(height: 4),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
-          child: XButton(
-            title: 'Sign Out',
-            onPressed: () {
-              di.bloc<SessionBloc>().add(const SessionSignedOut());
-            },
-          ),
-        ),
-      ],
+      ),
     );
+  }
+}
+
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  _SliverAppBarDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
+  });
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => max(maxHeight, minHeight);
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }

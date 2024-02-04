@@ -8,8 +8,7 @@ class LightTheme extends BaseTheme {
   @override
   ThemeData build(BuildContext context) {
     return ThemeData(
-      useMaterial3: true,
-      fontFamily: fontFamily,
+      // fontFamily: fontFamily,
       splashColor: Palette.grey50008,
       highlightColor: Palette.grey50012,
       focusColor: Palette.grey50024,
@@ -66,6 +65,25 @@ class LightTheme extends BaseTheme {
         alignedDropdown: true,
         padding: EdgeInsets.all(0),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      bottomNavigationBarTheme: bottomNavigationBarThemeData.copyWith(
+        selectedItemColor: Palette.text.primaryLight,
+        unselectedItemColor: Palette.grey50080,
+        backgroundColor: Palette.background.lightDefault,
+      ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: Palette.background.lightPaper,
+        surfaceTintColor: Palette.background.lightPaper,
+      ),
+      chipTheme: ChipThemeData(
+        side: BorderSide.none,
+        backgroundColor: Palette.white.withAlpha((0.08 * 255).toInt()),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        modalBarrierColor: Palette.white.withOpacity(0.1),
       ),
     );
   }
