@@ -51,10 +51,7 @@ abstract class BaseClient {
       });
     }
 
-    log.info('CALL API: ', messages: [
-      '─ API URL ──> ${request.url}',
-      '─ AUTHORIZATION ──> ${request.headers}',
-    ]);
+    _logRequest(request);
   }
 
   Future<dynamic> _call(
@@ -68,10 +65,10 @@ abstract class BaseClient {
       final request = Request(method, _getParsedUrl(path, queries));
       _setHeaders(request, headers: headers);
       if (data != null) {
+        log.logMap(data);
         request.body = jsonEncode(data);
-        log.info('PAYLOAD ──> ${request.body}');
       }
-      _logRequest(request);
+
       return retry(
         () async {
           final response = await _client
@@ -91,7 +88,7 @@ abstract class BaseClient {
     }
   }
 
-  void _logRequest(Request request) {
+  void _logRequest(BaseRequest request) {
     final uri = request.url;
     final method = request.method;
     log
@@ -254,7 +251,7 @@ abstract class BaseClient {
         uri,
         onProgress: (int bytes, int total) {
           final progress = 100.0 * (bytes / total);
-          if (uploading != null) uploading(progress * 0.95);
+          uploading?.call(progress * 0.95);
         },
       );
 
@@ -262,7 +259,7 @@ abstract class BaseClient {
       request.files.add(file);
 
       final response = await request.send().then(Response.fromStream);
-      if (uploading != null) uploading(100.0);
+      uploading?.call(100.0);
 
       return _responseInterceptor(response);
     } on ClientException catch (e) {
@@ -288,9 +285,7 @@ abstract class BaseClient {
       response.stream.listen((value) {
         bytes.addAll(value);
         final progress = 100.0 * (bytes.length / total);
-        if (downloading != null) {
-          downloading(progress);
-        }
+        downloading?.call(progress);
       }).onDone(() async {
         completer.complete(Uint8List.fromList(bytes));
       });

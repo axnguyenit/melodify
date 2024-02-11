@@ -1,11 +1,15 @@
 export 'auth_service.dart';
 export 'base_firestore_service.dart';
 export 'impl/auth_service_impl.dart';
+export 'impl/music_service_impl.dart';
 export 'impl/query_suggestion_service_impl.dart';
 export 'impl/session_service_impl.dart';
 export 'impl/settings_service_impl.dart';
 export 'impl/user_service_impl.dart';
+export 'impl/youtube_music_service_impl.dart';
+export 'music_service.dart';
 export 'query_suggestion_service.dart';
 export 'session_service.dart';
 export 'settings_service.dart';
 export 'user_service.dart';
+export 'youtube_music_service.dart';
