@@ -8,7 +8,7 @@ import 'package:melodify/widgets/widgets.dart';
 import 'package:resources/resources.dart';
 
 import 'app_loading.dart';
-import 'lost_connection/lost_connection.dart';
+// import 'lost_connection/lost_connection.dart';
 
 class AppShowing extends StatefulWidget {
   final Widget child;
@@ -33,11 +33,12 @@ class _AppShowingState extends State<AppShowing> {
         BlocListener<SessionBloc, SessionState>(
           listener: (_, state) {
             log.info(state);
-            if (state is SessionSignOutSuccess || state is SessionLoadFailure) {
-              Routing().pushNamedAndRemoveUntil(Routes.signIn);
-            } else if (state is SessionSignInSuccess) {
-              Routing().pushNamedAndRemoveUntil(Routes.dashboard);
-            }
+            Routing().pushNamedAndRemoveUntil(Routes.dashboard);
+            // if (state is SessionSignOutSuccess || state is SessionLoadFailure) {
+            //   Routing().pushNamedAndRemoveUntil(Routes.signIn);
+            // } else if (state is SessionSignInSuccess) {
+            //   Routing().pushNamedAndRemoveUntil(Routes.dashboard);
+            // }
           },
         ),
         BlocListener<ToastBloc, ToastState>(
@@ -57,7 +58,7 @@ class _AppShowingState extends State<AppShowing> {
         children: [
           widget.child,
           const Loading(),
-          const LostConnection(),
+          // const LostConnection(),
         ],
       ),
     );

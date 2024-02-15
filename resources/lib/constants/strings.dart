@@ -40,4 +40,15 @@ class Strings {
   static const invalidVerificationCode = 'invalidVerificationCode';
   static const library = 'library';
   static const settings = 'settings';
+  static const playNext = 'playNext';
+  static const addToQueue = 'addToQueue';
+  static const download = 'download';
+  static const saveToPlaylist = 'saveToPlaylist';
+  static const goToAlbum = 'goToAlbum';
+  static const goToArtist = 'goToArtist';
+  static const viewSongCredits = 'viewSongCredits';
+  static const share = 'share';
+  static const playRadio = 'playRadio';
+  static const remove = 'remove';
+  static const explore = 'explore';
 }

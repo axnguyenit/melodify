@@ -16,7 +16,6 @@ import 'package:domain/services/impl/session_service_impl.dart' as _i7;
 import 'package:domain/services/impl/settings_service_impl.dart' as _i8;
 import 'package:domain/services/impl/user_service_impl.dart' as _i9;
 import 'package:domain/services/impl/youtube_music_service_impl.dart' as _i10;
-import 'package:domain/services/impl/youtube_service_impl.dart' as _i11;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
@@ -42,7 +41,6 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i9.UserServiceImpl(gh<_i3.UserRepository>()));
     gh.lazySingleton<_i3.YoutubeMusicService>(
         () => _i10.YoutubeMusicServiceImpl(gh<_i3.YoutubeMusicRepository>()));
-    gh.lazySingleton<_i3.YoutubeService>(() => _i11.YoutubeServiceImpl());
     return this;
   }
 }

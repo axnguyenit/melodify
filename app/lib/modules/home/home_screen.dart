@@ -1,8 +1,12 @@
 import 'dart:math';
 
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:melodify/blocs/blocs.dart';
 import 'package:melodify/constants/constants.dart';
 import 'package:melodify/modules/base/base.dart';
+import 'package:melodify/modules/common/common.dart';
 import 'package:melodify/modules/routes.dart';
 import 'package:melodify/theme/palette.dart';
 import 'package:melodify/widgets/widgets.dart';
@@ -15,8 +19,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseScreen<HomeScreen> {
+class _HomeScreenState extends BaseScreenWithBloc<HomeScreen, HomeBloc> {
   String? _selectedTab;
+  final _scrollController = ScrollController();
   final _tabs = [
     'Energise',
     'Mood',
@@ -29,6 +34,35 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
     'Focus',
     'Sleep',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    bloc.add(HomeLoaded());
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    final ScrollController(:offset, :position) = _scrollController;
+
+    if (offset == position.maxScrollExtent) {
+      if (bloc.state.continuation != null) {
+        bloc.add(HomeBrowsed());
+      }
+    }
+  }
+
+  Future<void> _refresh() async {
+    bloc.add(HomeLoaded());
+  }
 
   @override
   Widget get buildBody {
@@ -107,40 +141,55 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
             ),
           ];
         },
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: AppConstants.appPadding),
-              child: InkWellButton(
-                child: Text(
-                  'Recently played',
-                  style: context.titleMedium,
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/recent');
-                },
-              ),
-            ),
-            const SizedBox(height: 4),
+        body: RefreshIndicator(
+          onRefresh: _refresh,
+          child: BlocBuilder<HomeBloc, HomeState>(
+            buildWhen: (previous, current) =>
+                current is HomeLoadSuccess ||
+                current is HomeBrowseInProgress ||
+                current is HomeBrowseSuccess,
+            builder: (context, state) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      itemCount: state.musicCarouselShelfList.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 20),
+                      itemBuilder: (context, index) {
+                        final musicCarouselShelf =
+                            state.musicCarouselShelfList[index];
 
-            Padding(
-              padding: const EdgeInsets.only(left: AppConstants.appPadding),
-              child: InkWellButton(
-                child: Text('Recently played', style: context.titleMedium),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/recent');
-                },
-              ),
-            ),
-            const SizedBox(height: 4),
-          ],
+                        return switch (musicCarouselShelf.rendererType) {
+                          MusicShelfRendererType.responsiveListItem =>
+                            MusicResponsiveListItemRenderer(
+                              musicCarouselShelf: musicCarouselShelf,
+                            ),
+                          MusicShelfRendererType.twoRowItem =>
+                            MusicTwoRowItemRenderer(
+                              musicCarouselShelf: musicCarouselShelf,
+                            ),
+                        };
+                      },
+                    ),
+                  ),
+                  if (state is HomeBrowseInProgress)
+                    const SizedBox(
+                      height: 80,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
   }
 }
-
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double minHeight;

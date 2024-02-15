@@ -31,17 +31,17 @@ class XNetworkImage extends StatelessWidget {
       imageUrl: imageUrl,
       width: width,
       height: height,
-      placeholder: (context, url) {
-        return Image.asset(
-          'assets/images/error_image.png',
-          width: width ?? 100.0,
-          height: height ?? 100.0,
-        );
-      },
+      placeholder: (context, url) => Image.asset(
+        'assets/images/placeholder.png',
+        width: width,
+        height: height,
+        fit: fit ?? BoxFit.cover,
+      ),
       errorWidget: (context, url, error) => Image.asset(
-        'assets/images/error_image.png',
-        width: width ?? 100.0,
-        height: height ?? 100.0,
+        'assets/images/error.png',
+        width: width,
+        height: height,
+        fit: fit ?? BoxFit.cover,
       ),
     );
   }

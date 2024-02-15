@@ -1,0 +1,4 @@
+enum MusicShelfRendererType {
+  twoRowItem,
+  responsiveListItem,
+}

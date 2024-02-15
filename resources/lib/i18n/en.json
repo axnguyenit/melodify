@@ -34,5 +34,16 @@
   "smsVerification": "SMS Verification",
   "invalidVerificationCode": "Invalid verification code",
   "library": "Library",
-  "settings": "Settings"
+  "settings": "Settings",
+  "playRadio": "Play radio",
+  "playNext": "Play next",
+  "addToQueue": "Add to queue",
+  "download": "Download",
+  "saveToPlaylist": "Save to playlist",
+  "goToAlbum": "Go to album",
+  "goToArtist": "Go to artist",
+  "viewSongCredits": "View song credits",
+  "share": "Share",
+  "remove": "Remove",
+  "explore": "Explore"
 }

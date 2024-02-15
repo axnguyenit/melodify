@@ -6,29 +6,31 @@ class MusicCarouselShelf extends Model {
   final MusicCarouselShelfHeader header;
   final List<YTMSectionItem> contents;
   final int numItemsPerColumn;
+  final MusicShelfRendererType rendererType;
 
   MusicCarouselShelf({
     required this.header,
     required this.contents,
     required this.numItemsPerColumn,
+    required this.rendererType,
   });
 
   factory MusicCarouselShelf.fromJson(Map<String, dynamic> json) {
     try {
-      log.trace('Parsing MusicCarouselShelf');
       if (!json.containsKey('musicCarouselShelfRenderer')) {
         log
           ..error('Do not contain key musicCarouselShelfRenderer')
           ..logMap(json);
       }
       final renderer = json['musicCarouselShelfRenderer'];
+      final contents = getValue<List>(
+        renderer,
+        ['contents'],
+        [],
+      );
       return MusicCarouselShelf(
         header: MusicCarouselShelfHeader.fromJson(renderer['header']),
-        contents: getValue<List>(
-          renderer,
-          ['contents'],
-          [],
-        ).map((content) {
+        contents: contents.map((content) {
           return YTMSectionItem.fromJson(content);
         }).toList(),
         numItemsPerColumn: int.parse(
@@ -38,6 +40,9 @@ class MusicCarouselShelf extends Model {
             '1',
           ),
         ),
+        rendererType: contents.first.containsKey('musicTwoRowItemRenderer')
+            ? MusicShelfRendererType.twoRowItem
+            : MusicShelfRendererType.responsiveListItem,
       );
     } catch (e) {
       log.error('Parse MusicCarouselShelf error --> $e');
@@ -68,9 +73,6 @@ class MusicCarouselShelfHeader {
 
   factory MusicCarouselShelfHeader.fromJson(Map<String, dynamic> json) {
     try {
-      log
-        ..trace('Parsing MusicCarouselShelfHeader')
-        ..trace(json);
       final renderer = json['musicCarouselShelfBasicHeaderRenderer'];
 
       return MusicCarouselShelfHeader(
@@ -107,9 +109,6 @@ class MoreContentButton {
 
   factory MoreContentButton.fromJson(Map<String, dynamic> json) {
     try {
-      log
-        ..trace('Parsing MoreContentButton')
-        ..trace(json);
       final renderer = json['buttonRenderer'];
 
       return MoreContentButton(

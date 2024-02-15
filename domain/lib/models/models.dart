@@ -8,6 +8,7 @@ export 'model.dart';
 export 'music_carousel_shelf.dart';
 export 'music_shelf.dart';
 export 'sms_verification.dart';
+export 'thumbnail_corner_overlay.dart';
 export 'translated_text.dart';
 export 'user.dart';
 export 'yt_config.dart';

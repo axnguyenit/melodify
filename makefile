@@ -2,8 +2,8 @@ ENV ?= dev
 FVM ?= fvm
 
 setup-env:
-	cp ./envs/$(ENV)/google-services.json ./android/app/google-services.json
-	cp ./envs/$(ENV)/GoogleService-Info.plist ./ios/GoogleService-Info.plist
+	cp ./envs/$(ENV)/google-services.json ./app/android/app/google-services.json
+	cp ./envs/$(ENV)/GoogleService-Info.plist ./app/ios/GoogleService-Info.plist
 	cp ./envs/$(ENV)/.env ./app/.env
 	cp ./envs/$(ENV)/.env ./data/.env
 
@@ -45,7 +45,7 @@ build-ipa:
 gen:
 	make data-gen FVM=$(FVM)
 	make domain-gen FVM=$(FVM)
-	make gen FVM=$(FVM)
+	make app-gen FVM=$(FVM)
 
 data-gen:
 	cd data && make gen FVM=$(FVM)
@@ -53,7 +53,7 @@ data-gen:
 domain-gen:
 	cd domain && make gen FVM=$(FVM)
 
-gen:
+app-gen:
 	cd app && make gen FVM=$(FVM)
 
 data-watch:

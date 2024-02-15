@@ -1,4 +1,5 @@
 export 'connectivity/connectivity_bloc.dart';
+export 'home/home_bloc.dart';
 export 'language/language_bloc.dart';
 export 'loading/loading_bloc.dart';
 export 'profile_creation/profile_creation_bloc.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class InkWellButton extends StatelessWidget {
   final VoidCallback? onPressed;
+  final VoidCallback? onLongPress;
   final double? width;
   final double? height;
   final EdgeInsets padding;
@@ -16,6 +17,7 @@ class InkWellButton extends StatelessWidget {
   const InkWellButton({
     super.key,
     this.onPressed,
+    this.onLongPress,
     this.width,
     this.height,
     this.padding = const EdgeInsets.all(0),
@@ -40,6 +42,7 @@ class InkWellButton extends StatelessWidget {
         ),
         child: InkWell(
           onTap: onPressed,
+          onLongPress: onLongPress,
           highlightColor: highlightColor,
           splashColor: splashColor,
           splashFactory: splashFactory,

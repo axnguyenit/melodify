@@ -34,5 +34,16 @@
   "smsVerification": "Xác minh SMS",
   "invalidVerificationCode": "Mã xác minh không hợp lệ",
   "library": "Thư viện",
-  "settings": "Cài đặt"
+  "settings": "Cài đặt",
+  "playRadio": "Bắt đầu đài phát",
+  "playNext": "Phát tiếp theo",
+  "addToQueue": "Thêm vào danh sác sáh chờ",
+  "download": "Tải xuống",
+  "saveToPlaylist": "Lưu vào danh sách phát",
+  "goToAlbum": "Chuyển đến đĩa nhạc",
+  "goToArtist": "Chuyển đến trang nghệ sĩ",
+  "viewSongCredits": "Xem thông tin ghi công của bài hát",
+  "share": "Chia sẻ",
+  "remove": "Xoá",
+  "explore": "Khám phá"
 }

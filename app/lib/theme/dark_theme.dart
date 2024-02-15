@@ -23,6 +23,7 @@ class DarkTheme extends BaseTheme {
         primarySwatch: primarySwatch,
         // TODO(kha): check color
         accentColor: Palette.primary500,
+        // accentColor: const Color(0x3422552064),
         cardColor: Palette.background.darkPaper,
         backgroundColor: Palette.background.darkDefault,
         errorColor: Palette.negative,

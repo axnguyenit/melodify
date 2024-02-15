@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:melodify/theme/palette.dart';
 
 extension ContextExtension on BuildContext {
   void hideKeyboardIfNeeded() => FocusScope.of(this).unfocus();
@@ -82,4 +83,15 @@ extension ContextExtension on BuildContext {
 
   // ─────────── THEME DATA ─────────── //
   InputDecorationTheme get inputDecorationTheme => theme.inputDecorationTheme;
+
+  //
+  bool get isLightMode => theme.brightness == Brightness.light;
+
+  Color get chipSelectedBackground => isLightMode
+      ? Palette.black.withAlpha((0.08 * 255).toInt())
+      : Palette.white;
+
+  Color get chipBackground => isLightMode
+      ? Palette.black.withAlpha((0.08 * 255).toInt())
+      : Palette.white.withOpacity(0.08);
 }

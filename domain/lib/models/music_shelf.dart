@@ -14,9 +14,6 @@ class MusicShelf extends Model {
   });
 
   factory MusicShelf.fromJson(Map<String, dynamic> json) {
-    log
-      ..trace('Parsing MusicShelf')
-      ..trace(json);
     try {
       final renderer = json['musicShelfRenderer'];
       return MusicShelf(
@@ -65,9 +62,6 @@ class MusicShelfHeader {
 
   factory MusicShelfHeader.fromJson(Map<String, dynamic> json) {
     try {
-      log
-        ..trace('Parsing MusicShelfHeader')
-        ..trace(json);
       final renderer = json['musicShelfBasicHeaderRenderer'];
 
       return MusicShelfHeader(

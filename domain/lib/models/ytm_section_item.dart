@@ -8,6 +8,8 @@ class YTMSectionItem {
   final String subtitle;
   final YTMSectionItemType type;
   final List<YTMSectionItemThumbnail> thumbnails;
+  final AspectRatioEnum aspectRatio;
+  final ThumbnailCornerOverlay? thumbnailCornerOverlay;
 
   YTMSectionItem({
     required this.id,
@@ -15,15 +17,18 @@ class YTMSectionItem {
     required this.subtitle,
     required this.type,
     required this.thumbnails,
+    required this.aspectRatio,
+    required this.thumbnailCornerOverlay,
   });
 
   factory YTMSectionItem.fromJson(Map<String, dynamic> json) {
     try {
-      log.trace('Parsing YTMSectionItem');
       Map<String, dynamic> renderer = {};
       String title = '';
       String subtitle = '';
       List thumbnails = [];
+      AspectRatioEnum aspectRatio = AspectRatioEnum.square;
+      ThumbnailCornerOverlay? thumbnailCornerOverlay;
 
       // if (!json.containsKey('musicResponsiveListItemRenderer')) {
       //   log
@@ -52,12 +57,18 @@ class YTMSectionItem {
           [],
         );
       } else {
+        if (!json.containsKey('musicTwoRowItemRenderer')) {
+          log.error('Do not contain key musicTwoRowItemRenderer');
+        }
         renderer = getValue<Map<String, dynamic>>(
           json,
           ['musicTwoRowItemRenderer'],
         );
         title = getRunsText(renderer, key: 'title');
         subtitle = getRunsText(renderer, key: 'subtitle');
+        aspectRatio = AspectRatioEnum.fromValue(
+          getValue<String?>(renderer, ['aspectRatio']),
+        );
         thumbnails = getValue<List>(
           renderer,
           [
@@ -68,11 +79,15 @@ class YTMSectionItem {
           ],
           [],
         );
+        final thumbnailCornerOverlayMap =
+            getValue(renderer, ['thumbnailCornerOverlay']);
+        if (thumbnailCornerOverlayMap != null) {
+          thumbnailCornerOverlay =
+              ThumbnailCornerOverlay.fromJson(thumbnailCornerOverlayMap);
+        }
       }
-      log.trace('Parsing flexColumns');
       final typeValue = subtitle.split('•').first.trim().toLowerCase();
       final type = YTMSectionItemType.fromValue(typeValue);
-      log.trace('Parsing thumbnails');
 
       String id;
       // log
@@ -87,7 +102,6 @@ class YTMSectionItem {
         keys = ['navigationEndpoint', 'browseEndpoint', 'browseId'];
       }
 
-      log.trace('Parsing id');
       id = getValue<String>(renderer, keys, '');
 
       return YTMSectionItem(
@@ -98,6 +112,8 @@ class YTMSectionItem {
         thumbnails: thumbnails.map((thumbnail) {
           return YTMSectionItemThumbnail.fromJson(thumbnail);
         }).toList(),
+        aspectRatio: aspectRatio,
+        thumbnailCornerOverlay: thumbnailCornerOverlay,
       );
     } catch (e) {
       log.error('Parse YTMSectionItem Error --> $e');
