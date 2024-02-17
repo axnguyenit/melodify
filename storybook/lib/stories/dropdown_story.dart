@@ -22,7 +22,6 @@ class DropdownStory extends Story {
           child: StatefulStory(
             builder: () {
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
@@ -33,7 +32,7 @@ class DropdownStory extends Story {
                     itemBuilder: (BuildContext context, String item) {
                       return Align(
                         alignment: Alignment.centerLeft,
-                        child: XText(item),
+                        child: Text(item),
                       );
                     },
                     onSelected: (value) {
@@ -49,7 +48,7 @@ class DropdownStory extends Story {
                     itemBuilder: (BuildContext context, String item) {
                       return Align(
                         alignment: Alignment.centerLeft,
-                        child: XText(item),
+                        child: Text(item),
                       );
                     },
                     onSelected: (value) {
@@ -82,7 +81,7 @@ class DropdownStory extends Story {
                     itemBuilder: (BuildContext context, String item) {
                       return Align(
                         alignment: Alignment.centerLeft,
-                        child: XText(item),
+                        child: Text(item),
                       );
                     },
                     onSelected: (value) {
@@ -97,7 +96,7 @@ class DropdownStory extends Story {
                     itemBuilder: (BuildContext context, String item) {
                       return Align(
                         alignment: Alignment.centerLeft,
-                        child: XText(item),
+                        child: Text(item),
                       );
                     },
                     onSelected: (value) {

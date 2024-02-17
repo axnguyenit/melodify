@@ -19,7 +19,6 @@ class IconButtonStory extends Story {
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 XIconButton(
                   onPressed: noop,

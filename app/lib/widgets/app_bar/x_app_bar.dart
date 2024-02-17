@@ -34,7 +34,6 @@ class XAppBar extends StatelessWidget implements PreferredSizeWidget {
           SizedBox(
             height: toolbarHeight,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (left != null) ...[
                   left!,

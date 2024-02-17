@@ -126,7 +126,7 @@ class FormValidationStory extends Story {
                         itemBuilder: (context, item) {
                           return Align(
                             alignment: Alignment.centerLeft,
-                            child: XText(item),
+                            child: Text(item),
                           );
                         },
                       ),

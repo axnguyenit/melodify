@@ -251,7 +251,6 @@ class _XDropdownState<T> extends State<XDropdown<T>>
                 padding: const EdgeInsets.fromLTRB(16, 8, 12, 8),
                 height: widget.dropdownButtonHeight,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     _buildSelectedItem(hasSelectedValue),
                     const Spacer(),

@@ -49,7 +49,6 @@ class XStatus extends StatelessWidget {
     return SizedBox(
       height: 24,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           status.getIcon(),
           // Column(

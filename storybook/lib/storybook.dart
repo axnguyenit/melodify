@@ -2,7 +2,6 @@ library storybook;
 
 import 'package:flutter/material.dart';
 import 'package:melodify/constants/constants.dart';
-import 'package:melodify/widgets/widgets.dart';
 
 export 'stateful_story.dart';
 
@@ -73,7 +72,7 @@ class _StorybookState extends State<Storybook> {
   Widget _buildMobileView() {
     return Scaffold(
       appBar: AppBar(
-        title: const XText.titleLarge('Storybook'),
+        title: const Text('Storybook'),
       ),
       body: _menu(true),
     );
@@ -102,7 +101,10 @@ class _StorybookState extends State<Storybook> {
                 Container(
                   height: 64,
                   alignment: Alignment.center,
-                  child: XText.titleLarge(_storyContent.title),
+                  child: Text(
+                    _storyContent.title,
+                    style: context.titleLarge,
+                  ),
                 ),
                 Expanded(
                   child: _storyContent.builder(context),
@@ -159,7 +161,7 @@ class StoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: XText.titleLarge(title)),
+      appBar: AppBar(title: Text(title)),
       body: Container(
         child: builder(context),
       ),
