@@ -57,7 +57,6 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i5.AuthService>(),
           gh<_i5.UserService>(),
           gh<_i5.SessionService>(),
-          gh<_i5.YoutubeMusicService>(),
         ));
     gh.factory<_i13.SignInBloc>(() => _i13.SignInBloc(
           gh<_i5.AuthService>(),
