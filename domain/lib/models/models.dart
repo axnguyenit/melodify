@@ -4,6 +4,8 @@ export 'continuation.dart';
 export 'home_data.dart';
 export 'inner_tube_client.dart';
 export 'mapper.dart';
+export 'menu.dart';
+export 'menu_item.dart';
 export 'model.dart';
 export 'music_carousel_shelf.dart';
 export 'music_shelf.dart';

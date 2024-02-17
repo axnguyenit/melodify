@@ -1,0 +1,1 @@
+enum MenuItemType { navigation, service }

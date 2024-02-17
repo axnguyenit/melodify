@@ -2,8 +2,8 @@ import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:melodify/constants/constants.dart';
+import 'package:melodify/extensions/extensions.dart';
 import 'package:melodify/widgets/widgets.dart';
-import 'package:resources/resources.dart';
 
 const double _itemHeight = 244;
 const double _thumbnailSize = 160;
@@ -26,7 +26,10 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
     };
   }
 
-  Future<void> _showBottomSheet(BuildContext context) async {
+  Future<void> _showBottomSheet(
+    BuildContext context,
+    YTMSectionItem sectionItem,
+  ) async {
     await ModalBottomSheet.open(
       context: context,
       child: SingleChildScrollView(
@@ -36,10 +39,14 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
           children: [
             ListTile(
               leading: XAvatar(
-                imageUrl: 'https://picsum.photos/300/300',
+                imageUrl: sectionItem.thumbnails.first.url,
                 borderRadius: BorderRadius.circular(4),
               ),
-              title: const Text('Ghost'),
+              title: Text(
+                sectionItem.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -59,139 +66,33 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
                   ),
                 ],
               ),
-              subtitle: const Text('Pustin Bieber'),
+              subtitle: Text(
+                sectionItem.subtitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
               contentPadding: const EdgeInsets.only(
                 left: AppConstants.appPadding,
               ),
               horizontalTitleGap: AppConstants.appPadding,
             ),
             const Divider(height: 1),
-            ListTile(
-              // value: 7,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.rfidOutline,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.playRadio)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
-            ListTile(
-              // value: 2,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.playlist,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.playNext)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
-            ListTile(
-              // value: 1,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.playlist2,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.addToQueue)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
-            ListTile(
-              // value: 2,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.rfidOutline,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.download)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
-            ListTile(
-              // value: 0,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.playlistAdd,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.saveToPlaylist)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
-            ListTile(
-              // value: 4,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.album,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.goToAlbum)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
-            ListTile(
-              // value: 2,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.userMusicOutline,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.goToArtist)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
-            ListTile(
-              // value: 2,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.rfidOutline,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.viewSongCredits)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
-            ListTile(
-              // value: 3,
-              dense: true,
-              leading: AppIcon(
-                assetName: AppIcons.shareOutline,
-                color: context.textColor,
-                width: 26.0,
-                height: 26.0,
-              ),
-              title: Text(context.translate(Strings.share)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 23),
-              horizontalTitleGap: 23,
-              onTap: () {},
-            ),
+            ...sectionItem.menu.items.map((item) {
+              return ListTile(
+                // value: 7,
+                dense: true,
+                leading: AppIcon(
+                  assetName: item.iconType.iconPath,
+                  color: context.textColor,
+                  width: 26.0,
+                  height: 26.0,
+                ),
+                title: Text(item.title),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 23),
+                horizontalTitleGap: 23,
+                onTap: () {},
+              );
+            }),
             // if (mediaItem.artist != null)
             //   ...mediaItem.artist.toString().split(', ').map(
             //         (artist) => ListTile(
@@ -230,7 +131,6 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Flexible(
                 child: Column(
@@ -239,7 +139,7 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
                     if (header.strapline.isNotNullOrEmpty)
                       Text(
                         header.strapline!,
-                        style: context.titleSmall?.copyWith(
+                        style: context.bodySmall?.copyWith(
                           color: context.disabledColor,
                         ),
                       ),
@@ -290,7 +190,7 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   onPressed: () {},
                   onLongPress: () {
-                    _showBottomSheet(context);
+                    _showBottomSheet(context, sectionItem);
                   },
                   child: Column(
                     children: [

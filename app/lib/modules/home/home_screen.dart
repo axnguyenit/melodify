@@ -39,7 +39,7 @@ class _HomeScreenState extends BaseScreenWithBloc<HomeScreen, HomeBloc> {
   void initState() {
     super.initState();
 
-    bloc.add(HomeLoaded());
+    _refresh();
     _scrollController.addListener(_scrollListener);
   }
 

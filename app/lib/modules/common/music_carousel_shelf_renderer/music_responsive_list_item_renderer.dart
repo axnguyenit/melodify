@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:melodify/constants/constants.dart';
+import 'package:melodify/modules/common/common.dart';
 import 'package:melodify/widgets/widgets.dart';
 
 import 'music_more_menu.dart';
@@ -24,7 +25,7 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     final Size(:width, :height) = size;
     final rotated = height < width;
-    final biggerScreen = width > 1050;
+    final biggerScreen = width > 1024;
     final portion = (contents.length <= numItemsPerColumn) ? 1.0 : 0.9;
     final listSize = rotated
         ? biggerScreen
@@ -40,7 +41,6 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Flexible(
                 child: Column(
@@ -49,7 +49,7 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
                     if (header.strapline.isNotNullOrEmpty)
                       Text(
                         header.strapline!,
-                        style: context.titleSmall?.copyWith(
+                        style: context.bodySmall?.copyWith(
                           color: context.disabledColor,
                         ),
                       ),
@@ -81,72 +81,68 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         SizedBox(
-          height: (contents.length < numItemsPerColumn
-                  ? contents.length * 74
-                  : 74 * numItemsPerColumn)
-              .toDouble(),
+          height: contents.length < numItemsPerColumn
+              ? contents.length * 72.0
+              : 72.0 * numItemsPerColumn,
           child: Align(
             alignment: Alignment.centerLeft,
             child: ListView.builder(
-              physics: const PageScrollPhysics(),
+              physics: XPageScrollPhysics(itemDimension: listSize),
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemExtent: listSize,
               itemCount: (contents.length / numItemsPerColumn).ceil(),
               itemBuilder: (context, index) {
-                final itemGroup = contents
+                final items = contents
                     .skip(index * numItemsPerColumn)
                     .take(numItemsPerColumn);
-                final isLast = contents.length == index + 1;
 
-                return SizedBox(
-                  height: 72 * 4,
-                  width: isLast ? 1 : listSize,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: itemGroup.map((item) {
-                      return ListTile(
-                        contentPadding: const EdgeInsets.only(
-                          left: 16,
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: items.map((item) {
+                    return ListTile(
+                      contentPadding: const EdgeInsets.only(
+                        left: 16,
+                      ),
+                      title: Text(
+                        item.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.titleSmall?.copyWith(
+                          color: context.textColor,
                         ),
-                        title: Text(
-                          item.title,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.titleMedium?.copyWith(
-                            color: context.textColor,
-                          ),
+                      ),
+                      subtitle: Text(
+                        item.subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.bodySmall?.copyWith(
+                          color: context.iconColor,
                         ),
-                        subtitle: Text(
-                          item.subtitle,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.bodyMedium?.copyWith(
-                            color: context.iconColor,
-                          ),
-                        ),
-                        leading: XNetworkImage(
-                          width: 48,
-                          height: 48,
-                          fit: BoxFit.contain,
-                          imageUrl: item.thumbnails.first.url,
-                          borderRadius: BorderRadius.circular(2),
-                          // placeholderImage: (item['type'] == 'playlist' ||
-                          //         item['type'] == 'album')
-                          //     ? const AssetImage(
-                          //         'assets/album.png',
-                          //       )
-                          //     : item['type'] == 'artist'
-                          //         ? const AssetImage(
-                          //             'assets/artist.png',
-                          //           )
-                          //         : const AssetImage(
-                          //             'assets/cover.jpg',
-                          //           ),
-                        ),
-                        trailing: const MusicMoreMenu(),
-                        onTap: () {},
-                      );
-                    }).toList(),
-                  ),
+                      ),
+                      leading: XNetworkImage(
+                        width: 48,
+                        height: 48,
+                        fit: BoxFit.contain,
+                        imageUrl: item.thumbnails.first.url,
+                        borderRadius: BorderRadius.circular(2),
+                        // placeholderImage: (item['type'] == 'playlist' ||
+                        //         item['type'] == 'album')
+                        //     ? const AssetImage(
+                        //         'assets/album.png',
+                        //       )
+                        //     : item['type'] == 'artist'
+                        //         ? const AssetImage(
+                        //             'assets/artist.png',
+                        //           )
+                        //         : const AssetImage(
+                        //             'assets/cover.jpg',
+                        //           ),
+                      ),
+                      trailing: MusicMoreMenu(sectionItem: item),
+                      onTap: () {},
+                    );
+                  }).toList(),
                 );
               },
             ),

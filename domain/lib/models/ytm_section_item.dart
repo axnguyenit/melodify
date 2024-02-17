@@ -10,6 +10,7 @@ class YTMSectionItem {
   final List<YTMSectionItemThumbnail> thumbnails;
   final AspectRatioEnum aspectRatio;
   final ThumbnailCornerOverlay? thumbnailCornerOverlay;
+  final Menu menu;
 
   YTMSectionItem({
     required this.id,
@@ -19,6 +20,7 @@ class YTMSectionItem {
     required this.thumbnails,
     required this.aspectRatio,
     required this.thumbnailCornerOverlay,
+    required this.menu,
   });
 
   factory YTMSectionItem.fromJson(Map<String, dynamic> json) {
@@ -114,6 +116,7 @@ class YTMSectionItem {
         }).toList(),
         aspectRatio: aspectRatio,
         thumbnailCornerOverlay: thumbnailCornerOverlay,
+        menu: Menu.fromJson(getValue(renderer, ['menu'])),
       );
     } catch (e) {
       log.error('Parse YTMSectionItem Error --> $e');
