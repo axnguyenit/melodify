@@ -40,12 +40,19 @@ class YoutubeMusicClientImpl extends BaseClient implements YoutubeMusicClient {
         r"JSON\.parse\('\\x7b\\x22browseId\\x22:\\x22FEmusic_home\\x22\\x7d'\)\s*,\s*data\s*:\s*'\s*(.+?)\s*'}\);\s*ytcfg\.set\s*\(\s*");
     final matchedData = dataReg.firstMatch(response.body.toString());
     final extractedString = matchedData!.group(1);
-    final convertedString = extractedString!.replaceAllMapped(
-      RegExp(r'\\x([0-9a-fA-F]{2})'),
-      (Match match) => String.fromCharCode(
-        int.parse(match.group(1)!, radix: 16),
-      ),
-    );
+    final convertedString = extractedString!
+        .replaceAllMapped(
+          RegExp(r'\\x([0-9a-fA-F]{2})'),
+          (Match match) => String.fromCharCode(
+            int.parse(match.group(1)!, radix: 16),
+          ),
+        )
+        .replaceAll('\\"', '"') // Escape double quotes
+        .replaceAll(r'\n', '\n') // Use platform-specific newline escape
+        .replaceAll(
+            r'\r\n', '\n') // Handle Windows-style newlines (if applicable)
+        // Address other escape sequences or character conversions as necessary
+        .replaceAll(r'\t', '    ');
     final parsedContentMap = jsonDecode(convertedString);
     final content = Content.fromJson(parsedContentMap, firstBrowse: true);
     return HomeData(ytConfig: ytConfig, content: content);
