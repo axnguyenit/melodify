@@ -52,4 +52,5 @@ class _Blocs {
   final profileCreation = const Key('profile_creation_bloc');
   final querySuggestion = const Key('query_suggestion_bloc');
   final home = const Key('home_bloc');
+  final youtube = const Key('youtube_bloc');
 }

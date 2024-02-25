@@ -4,14 +4,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:melodify/blocs/blocs.dart';
 import 'package:melodify/blocs/mixins/mixins.dart';
 import 'package:melodify/constants/constants.dart';
+import 'package:melodify/di/di.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 @LazySingleton()
-class HomeBloc extends BaseBloc<HomeEvent, HomeState> with AppLoading {
+class HomeBloc extends BaseBloc<HomeEvent, HomeState>
+    with AppLoading, YoutubeData {
   final YoutubeMusicService _ytmService;
   HomeBloc(this._ytmService) : super(Keys.Blocs.home, HomeInitial()) {
     on<HomeLoaded>(_onHomeLoaded);
@@ -36,8 +39,9 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> with AppLoading {
         ),
       );
 
+      di.bloc<YoutubeBloc>().add(YoutubeConfigured(ytConfig: ytConfig));
+
       emit(HomeLoadSuccess(
-        ytConfig: ytConfig,
         continuation: continuation,
         musicCarouselShelfList: [
           ...content.musicCarouselShelfList,
@@ -58,18 +62,16 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> with AppLoading {
   ) async {
     try {
       emit(HomeBrowseInProgress(
-        ytConfig: state.ytConfig,
         continuation: state.continuation,
         musicCarouselShelfList: state.musicCarouselShelfList,
       ));
       final Content(:continuation, :musicCarouselShelfList) =
           await _ytmService.browse(BrowseRequest(
-        client: state.ytConfig!.innerTubeClient,
+        client: ytConfig.innerTubeClient,
         continuation: state.continuation!,
-        innerTubeApiKey: state.ytConfig!.innerTubeApiKey,
+        innerTubeApiKey: ytConfig.innerTubeApiKey,
       ));
       emit(HomeBrowseSuccess(
-        ytConfig: state.ytConfig,
         continuation: continuation,
         musicCarouselShelfList: [
           ...state.musicCarouselShelfList,
@@ -79,7 +81,6 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> with AppLoading {
     } catch (e) {
       log.error(e);
       emit(HomeBrowseFailure(
-        ytConfig: state.ytConfig,
         continuation: state.continuation,
         musicCarouselShelfList: state.musicCarouselShelfList,
       ));
