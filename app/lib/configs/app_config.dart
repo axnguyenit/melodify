@@ -36,6 +36,7 @@ class AppConfig extends BaseConfig {
   Future<void> config() async {
     await dotenv.load();
     await configureDependencies();
+    await di.get<AppAudioHandler>().initialize();
     await di.get<LocalNotification>().initialize();
     await di.get<Messaging>().initialize();
     FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
