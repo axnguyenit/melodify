@@ -1,65 +1,127 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.n4.melodify">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.n4.melodify">
 
-	<!--	<uses-feature-->
-	<!--		android:name="android.hardware.camera"-->
-	<!--		android:required="false" />-->
+    <!--	<uses-feature-->
+    <!--		android:name="android.hardware.camera"-->
+    <!--		android:required="false" />-->
 
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<!--	<uses-permission android:name="android.permission.CAMERA" />-->
-	<!--	<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
-	<!--	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-	<!--	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-	<!--	<uses-permission android:name="android.permission.READ_CONTACTS" />-->
-	<!--	<uses-permission android:name="android.permission.WRITE_CONTACTS" />-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--	<uses-permission android:name="android.permission.CAMERA" />-->
+    <!--	<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
+    <!--	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- If targeting SDK 34 -->
+    <!-- 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/> -->
+    <!--	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--	<uses-permission android:name="android.permission.READ_CONTACTS" />-->
+    <!--	<uses-permission android:name="android.permission.WRITE_CONTACTS" />-->
 
-	<queries>
-		<package android:name="${applicationId}" />
-	</queries>
+    <queries>
+        <package android:name="${applicationId}" />
+    </queries>
 
-	<application
-		android:name="${applicationName}"
-		android:icon="@mipmap/ic_launcher"
-		android:label="@string/app_name"
-		android:roundIcon="@mipmap/ic_launcher">
-		<activity
-			android:name=".MainActivity"
-			android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-			android:exported="true"
-			android:hardwareAccelerated="true"
-			android:launchMode="singleTop"
-			android:theme="@style/LaunchTheme"
-			android:windowSoftInputMode="adjustResize">
-			<!-- Specifies an Android theme to apply to this Activity as soon as
-							 the Android process has started. This theme is visible to the user
-							 while the Flutter UI initializes. After that, this theme continues
-							 to determine the Window background behind the Flutter UI. -->
-			<meta-data
-				android:name="io.flutter.embedding.android.NormalTheme"
-				android:resource="@style/NormalTheme" />
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-			<!-- notification click -->
-			<intent-filter>
-				<action android:name="FLUTTER_NOTIFICATION_CLICK" />
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-		<!--		<meta-data-->
-		<!--			android:name="com.google.firebase.messaging.default_notification_icon"-->
-		<!--			android:resource="@drawable/notification_icon" />-->
-		<!-- Don't delete the meta-data below.
-						 This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
-		<meta-data
-			android:name="flutterEmbedding"
-			android:value="2" />
-		<!-- Fcm Android Notification Default Channel -->
-		<meta-data
-			android:name="com.google.firebase.messaging.default_notification_channel_id"
-			android:value="high_importance_channel" />
-	</application>
+    <!-- Queries for Android 11+ -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
+    <application
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true"
+        android:extractNativeLibs="true"
+        tools:replace="android:extractNativeLibs"
+        tools:targetApi="tiramisu">
+
+        <!-- AudioServiceActivity -->
+        <activity
+            android:name="com.ryanheise.audioservice.AudioServiceActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="Instantiatable">
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                 the Android process has started. This theme is visible to the user
+                 while the Flutter UI initializes. After that, this theme continues
+                 to determine the Window background behind the Flutter UI. -->
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+                />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- AudioService -->
+        <service
+            android:name="com.ryanheise.audioservice.AudioService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true"
+            tools:ignore="ExportedService,Instantiatable">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+
+        <!-- MediaButtonReceiver -->
+        <receiver
+            android:name="com.ryanheise.audioservice.MediaButtonReceiver"
+            android:exported="true"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:windowSoftInputMode="adjustResize">
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                             the Android process has started. This theme is visible to the user
+                             while the Flutter UI initializes. After that, this theme continues
+                             to determine the Window background behind the Flutter UI. -->
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- notification click -->
+            <intent-filter>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!--		<meta-data-->
+        <!--			android:name="com.google.firebase.messaging.default_notification_icon"-->
+        <!--			android:resource="@drawable/notification_icon" />-->
+        <!-- Don't delete the meta-data below.
+                         This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+        <!-- Fcm Android Notification Default Channel -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="high_importance_channel" />
+    </application>
 </manifest>
