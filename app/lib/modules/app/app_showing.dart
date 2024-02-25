@@ -2,7 +2,9 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:melodify/blocs/blocs.dart';
+import 'package:melodify/di/di.dart';
 import 'package:melodify/global/global.dart';
+import 'package:melodify/models/extensions/extensions.dart';
 import 'package:melodify/modules/routes.dart';
 import 'package:melodify/widgets/widgets.dart';
 import 'package:resources/resources.dart';
@@ -51,6 +53,17 @@ class _AppShowingState extends State<AppShowing> {
                 params: state.params,
               ),
             );
+          },
+        ),
+        BlocListener<VideoDetailsBloc, VideoDetailsState>(
+          listenWhen: (_, current) => current is VideoDetailsLoadSuccess,
+          listener: (context, state) async {
+            if (state is VideoDetailsLoadSuccess) {
+              log.trace('PLAY MUSIC --> ${state.videoDetails?.title}');
+              await di
+                  .get<AppAudioHandler>()
+                  .playMusic(state.videoDetails!.toMediaItem());
+            }
           },
         ),
       ],

@@ -28,6 +28,10 @@ class _MelodifyAppState extends State<MelodifyApp> {
         BlocProvider<LoadingBloc>(create: (_) => di.bloc<LoadingBloc>()),
         BlocProvider<LanguageBloc>(create: (_) => di.bloc<LanguageBloc>()),
         BlocProvider<ToastBloc>(create: (_) => di.bloc<ToastBloc>()),
+        BlocProvider<YoutubeBloc>(create: (_) => di.bloc<YoutubeBloc>()),
+        BlocProvider<VideoDetailsBloc>(
+          create: (_) => di.bloc<VideoDetailsBloc>(),
+        ),
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         buildWhen: (_, current) =>

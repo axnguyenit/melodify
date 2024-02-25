@@ -1,7 +1,9 @@
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:melodify/blocs/blocs.dart';
 import 'package:melodify/constants/constants.dart';
+import 'package:melodify/di/di.dart';
 import 'package:melodify/extensions/extensions.dart';
 import 'package:melodify/widgets/widgets.dart';
 
@@ -15,6 +17,17 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
     super.key,
     required this.musicCarouselShelf,
   });
+
+  Future<void> _playSong(ThumbnailOverlay overlay) async {
+    if (overlay.playNavigationEndpoint.videoId != null) {
+      di.bloc<VideoDetailsBloc>().add(
+            VideoDetailsLoaded(
+              videoId: overlay.playNavigationEndpoint.videoId!,
+              playlistId: overlay.playNavigationEndpoint.playlistId,
+            ),
+          );
+    }
+  }
 
   List<Color> _gradientThumbnailColors(YTMSectionItem item) {
     return switch (item.aspectRatio) {
@@ -177,7 +190,7 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
             child: ListView.separated(
               shrinkWrap: true,
               itemCount: contents.length,
-              physics: const PageScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(
                 horizontal: AppConstants.appPadding,
@@ -186,9 +199,16 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
               itemBuilder: (context, index) {
                 final sectionItem = contents[index];
 
+                log
+                  ..trace(
+                      '''TWO ROW ITEM ID --> ${sectionItem.overlay.playNavigationEndpoint.videoId}''')
+                  ..trace(
+                      '''Playlist ID --> ${sectionItem.overlay.playNavigationEndpoint.playlistId}''');
                 return InkWellButton(
                   borderRadius: BorderRadius.circular(8),
-                  onPressed: () {},
+                  onPressed: () {
+                    _playSong(sectionItem.overlay);
+                  },
                   onLongPress: () {
                     _showBottomSheet(context, sectionItem);
                   },

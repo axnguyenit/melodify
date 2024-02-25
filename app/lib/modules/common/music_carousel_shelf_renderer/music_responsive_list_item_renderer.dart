@@ -1,7 +1,9 @@
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:melodify/blocs/blocs.dart';
 import 'package:melodify/constants/constants.dart';
+import 'package:melodify/di/di.dart';
 import 'package:melodify/modules/common/common.dart';
 import 'package:melodify/widgets/widgets.dart';
 
@@ -14,6 +16,17 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
     super.key,
     required this.musicCarouselShelf,
   });
+
+  Future<void> _playSong(ThumbnailOverlay overlay) async {
+    if (overlay.playNavigationEndpoint.videoId != null) {
+      di.bloc<VideoDetailsBloc>().add(
+            VideoDetailsLoaded(
+              videoId: overlay.playNavigationEndpoint.videoId!,
+              playlistId: overlay.playNavigationEndpoint.playlistId,
+            ),
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +113,12 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: items.map((item) {
+                    log
+                      ..trace(
+                          '''ID --> ${item.overlay.playNavigationEndpoint.videoId}''')
+                      ..trace(
+                          '''Playlist ID --> ${item.overlay.playNavigationEndpoint.playlistId}''');
+
                     return ListTile(
                       contentPadding: const EdgeInsets.only(
                         left: 16,
@@ -140,7 +159,9 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
                         //           ),
                       ),
                       trailing: MusicMoreMenu(sectionItem: item),
-                      onTap: () {},
+                      onTap: () {
+                        _playSong(item.overlay);
+                      },
                     );
                   }).toList(),
                 );
