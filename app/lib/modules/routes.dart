@@ -31,6 +31,7 @@ class Routes {
   static const smsVerification = '/sms-verification';
   static const profileCreation = '/profile-creation';
   static const search = '/search';
+  static const player = '/player';
 
   static Route generateRoute(RouteSettings settings) {
     final RouteSettings(:name, :arguments) = settings;
