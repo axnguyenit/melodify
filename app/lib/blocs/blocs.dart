@@ -9,4 +9,5 @@ export 'sign_in/sign_in_bloc.dart';
 export 'sign_up/sign_up_bloc.dart';
 export 'sms_verification/sms_verification_bloc.dart';
 export 'toast/toast_bloc.dart';
+export 'video_details/video_details_bloc.dart';
 export 'youtube/youtube_bloc.dart';

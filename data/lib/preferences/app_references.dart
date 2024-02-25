@@ -16,4 +16,8 @@ class AppPreferences {
   String? get profileToken {
     return _sharedPreferences.getString(SharedPreferenceKeys.profileToken);
   }
+
+  String? get localeCode {
+    return _sharedPreferences.getString(SharedPreferenceKeys.localCode);
+  }
 }

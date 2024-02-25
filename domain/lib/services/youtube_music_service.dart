@@ -8,4 +8,6 @@ abstract class YoutubeMusicService {
   Future<HomeData> getHome({required String localeCode});
 
   Future<Content> browse(BrowseRequest request);
+
+  Future<VideoDetails> player({required GetPlayerRequest request});
 }

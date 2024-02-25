@@ -1,3 +1,5 @@
+typedef JsonMap = Map<String, dynamic>;
+
 T getValue<T>(dynamic map, List keys, [T? fallback]) {
   dynamic temp = map;
   for (final key in keys) {

@@ -45,6 +45,11 @@ abstract class BaseClient {
       request.headers['x-profile-token'] = 'Bearer $profileToken';
     }
 
+    final localeCode = _appPreferences?.localeCode;
+    if (localeCode != null) {
+      request.headers['Accept-Language'] = localeCode;
+    }
+
     if (headers != null) {
       headers.forEach((key, value) {
         request.headers[key] = value;

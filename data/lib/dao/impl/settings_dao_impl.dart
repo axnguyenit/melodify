@@ -1,8 +1,7 @@
+import 'package:data/constants/constants.dart';
 import 'package:data/dao/base_dao.dart';
 import 'package:data/dao/dao.dart';
 import 'package:injectable/injectable.dart';
-
-const currentLocaleLanguageCodeKey = 'key_current_locale_country_code';
 
 @Injectable(as: SettingsDao)
 class SettingsDaoImpl extends BaseDao implements SettingsDao {
@@ -10,12 +9,11 @@ class SettingsDaoImpl extends BaseDao implements SettingsDao {
 
   @override
   String? getCurrentLocaleLanguageCode() {
-    final languageCode = getString(currentLocaleLanguageCodeKey);
-    return languageCode;
+    return getString(SharedPreferenceKeys.localCode);
   }
 
   @override
   Future<void> setCurrentLocaleLanguageCode(String code) async {
-    await saveString(code, currentLocaleLanguageCodeKey);
+    await saveString(code, SharedPreferenceKeys.localCode);
   }
 }

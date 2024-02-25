@@ -27,4 +27,9 @@ class YoutubeMusicRepositoryImpl implements YoutubeMusicRepository {
   Future<Content> browse(BrowseRequest request) {
     return _youtubeMusicClient.browse(request);
   }
+
+  @override
+  Future<VideoDetails> player({required GetPlayerRequest request}) {
+    return _youtubeMusicClient.player(request: request);
+  }
 }

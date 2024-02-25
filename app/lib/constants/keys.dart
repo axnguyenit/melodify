@@ -53,4 +53,5 @@ class _Blocs {
   final querySuggestion = const Key('query_suggestion_bloc');
   final home = const Key('home_bloc');
   final youtube = const Key('youtube_bloc');
+  final videoDetails = const Key('video_details_bloc');
 }

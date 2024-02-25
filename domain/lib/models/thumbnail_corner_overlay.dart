@@ -4,7 +4,7 @@ import 'package:domain/models/helpers.dart';
 
 class ThumbnailCornerOverlay {
   final ThumbnailCrop thumbnailCrop;
-  final List<YTMSectionItemThumbnail> thumbnails;
+  final List<Thumbnail> thumbnails;
 
   ThumbnailCornerOverlay({
     required this.thumbnailCrop,
@@ -30,7 +30,7 @@ class ThumbnailCornerOverlay {
         thumbnails: List.from(
           thumbnails.map(
             (thumbnail) {
-              return YTMSectionItemThumbnail.fromJson(thumbnail);
+              return Thumbnail.fromJson(thumbnail);
             },
           ),
         ),

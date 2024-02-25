@@ -26,4 +26,9 @@ class YoutubeMusicServiceImpl implements YoutubeMusicService {
   Future<Content> browse(BrowseRequest request) {
     return _ytmRepository.browse(request);
   }
+
+  @override
+  Future<VideoDetails> player({required GetPlayerRequest request}) {
+    return _ytmRepository.player(request: request);
+  }
 }

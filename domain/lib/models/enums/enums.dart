@@ -1,7 +1,9 @@
 export 'aspect_ratio.dart';
+export 'endpoint_type.dart';
 export 'icon_type.dart';
 export 'menu_item_type.dart';
 export 'music_shelf_renderer_type.dart';
+export 'overlay_position.dart';
 export 'thumbnail_crop.dart';
 export 'user_role.dart';
 export 'ytm_section_item_type.dart';

@@ -9,5 +9,5 @@ class SharedPreferenceKeys {
   static const deviceToken = 'deviceToken';
   static const isFirstLogin = 'isFirstLogin';
   static const isFirstLaunchApp = 'isFirstLaunchApp';
-  static const languageCode = 'languageCode';
+  static const localCode = 'localCode';
 }

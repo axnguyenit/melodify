@@ -1,19 +1,19 @@
 import 'package:core/core.dart';
 
-class YTMSectionItemThumbnail {
+class Thumbnail {
   final String url;
   final int width;
   final int height;
 
-  YTMSectionItemThumbnail({
+  Thumbnail({
     required this.url,
     required this.width,
     required this.height,
   });
 
-  factory YTMSectionItemThumbnail.fromJson(Map<String, dynamic> json) {
+  factory Thumbnail.fromJson(Map<String, dynamic> json) {
     try {
-      return YTMSectionItemThumbnail(
+      return Thumbnail(
         url: json['url'] as String,
         width: json['width'] as int,
         height: json['height'] as int,
@@ -22,5 +22,18 @@ class YTMSectionItemThumbnail {
       log.error('Parse Thumbnail Error --> $e');
       rethrow;
     }
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'url': url,
+      'width': width,
+      'height': height,
+    };
+  }
+
+  @override
+  String toString() {
+    return toJson().toString();
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:data/client/base_client.dart';
 import 'package:data/client/client.dart';
 import 'package:data/configs/config.dart';
+import 'package:data/preferences/app_references.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -10,10 +11,12 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: YoutubeMusicClient)
 class YoutubeMusicClientImpl extends BaseClient implements YoutubeMusicClient {
-  YoutubeMusicClientImpl() : super(Config().youtubeMusicUrl);
+  YoutubeMusicClientImpl(AppPreferences appPreferences)
+      : super(Config().youtubeMusicUrl, appPreferences);
 
   static const _userAgent =
-      'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
+
   static const _contentType = 'application/json';
 
   @override
@@ -104,5 +107,20 @@ class YoutubeMusicClientImpl extends BaseClient implements YoutubeMusicClient {
     final result = Map<String, dynamic>.from(json.decode(data));
 
     return MusicCarouselShelf.fromJson(result);
+  }
+
+  @override
+  Future<VideoDetails> player({required GetPlayerRequest request}) async {
+    final json = await post(
+      '/youtubei/v1/player',
+      headers: {
+        'User-Agent':
+            'com.google.android.youtube/17.36.4 (Linux; U; Android 12; GB) gzip',
+        'Content-Type': _contentType,
+      },
+      data: request.toPayload(),
+    );
+
+    return VideoDetails.fromJson(json);
   }
 }
