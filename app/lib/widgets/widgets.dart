@@ -15,6 +15,7 @@ export 'form_field/form_field.dart';
 export 'helper_text/helper_text.dart';
 export 'image/x_image_network.dart';
 export 'loading/loading.dart';
+export 'marquee/marquee.dart';
 export 'modal_bottom_sheet/modal_bottom_sheet.dart';
 export 'span_label/span_label.dart';
 export 'status/status.dart';

@@ -1,7 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:melodify/constants/context_extension.dart';
+import 'package:melodify/constants/constants.dart';
 import 'package:melodify/di/di.dart';
 import 'package:melodify/global/global.dart';
 import 'package:melodify/modules/routes.dart';
@@ -49,7 +49,8 @@ class MiniPlayer extends StatelessWidget {
                     .seek(Duration(seconds: newPosition.round()));
               },
             );
-          }),
+        },
+      ),
     );
   }
 
@@ -84,13 +85,44 @@ class MiniPlayer extends StatelessWidget {
                     onTap: () {
                       Routing().pushNamed(Routes.player);
                     },
-                    title: Text(
-                      mediaItem.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.titleMedium?.copyWith(
-                        color: context.textColor,
-                      ),
+                    title: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final textPainter = TextPainter(
+                          text: TextSpan(
+                            text: mediaItem.title,
+                            style: context.titleSmall,
+                          ),
+                          maxLines: 1,
+                          textDirection: TextDirection.ltr,
+                        )..layout(
+                            minWidth: 0,
+                            maxWidth: constraints.maxWidth,
+                          );
+
+                        if (textPainter.didExceedMaxLines) {
+                          return SizedBox(
+                            height: 18,
+                            child: Marquee(
+                              text: mediaItem.title,
+                              style: context.titleSmall?.copyWith(
+                                color: context.textColor,
+                              ),
+                              blankSpace: 44,
+                              velocity: 28,
+                              startAfter: const Duration(seconds: 2),
+                            ),
+                          );
+                        }
+
+                        return Text(
+                          mediaItem.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.titleSmall?.copyWith(
+                            color: context.textColor,
+                          ),
+                        );
+                      },
                     ),
                     subtitle: Text(
                       mediaItem.artist ?? '',
@@ -104,6 +136,9 @@ class MiniPlayer extends StatelessWidget {
                       imageUrl: mediaItem.artUri.toString(),
                       width: 48,
                       height: 48,
+                    ),
+                    contentPadding: const EdgeInsets.only(
+                      left: AppConstants.appPadding,
                     ),
                   ),
                 ),
