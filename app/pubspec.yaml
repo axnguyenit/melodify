@@ -60,6 +60,7 @@ flutter:
   assets:
     - .env
     - assets/icons/
+    - assets/images/
   fonts:
     - family: 'Public Sans'
       fonts:

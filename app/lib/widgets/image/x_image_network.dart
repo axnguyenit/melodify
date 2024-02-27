@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:melodify/constants/constants.dart';
 
 class XNetworkImage extends StatelessWidget {
   const XNetworkImage({
@@ -32,13 +33,13 @@ class XNetworkImage extends StatelessWidget {
       width: width,
       height: height,
       placeholder: (context, url) => Image.asset(
-        'assets/images/placeholder.png',
+        AppImages.discFill,
         width: width,
         height: height,
-        fit: fit ?? BoxFit.cover,
+        fit: fit ?? BoxFit.contain,
       ),
       errorWidget: (context, url, error) => Image.asset(
-        'assets/images/error.png',
+        AppImages.errorFill,
         width: width,
         height: height,
         fit: fit ?? BoxFit.cover,
