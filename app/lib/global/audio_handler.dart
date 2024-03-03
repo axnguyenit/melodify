@@ -5,6 +5,8 @@ import 'package:audio_session/audio_session.dart';
 import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:melodify/models/models.dart';
+import 'package:rxdart/rxdart.dart';
 
 @LazySingleton()
 class AppAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
@@ -187,6 +189,18 @@ class AppAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
       log.error('Listen Sequence State Error --> $e');
     }
   }
+
+  Stream<PositionData> get positionStream =>
+      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+        _audioPlayer.positionStream,
+        _audioPlayer.bufferedPositionStream,
+        _audioPlayer.durationStream,
+        (position, bufferedPosition, duration) => PositionData(
+          position,
+          bufferedPosition,
+          duration ?? Duration.zero,
+        ),
+      );
 
   Future<void> playMusic(MediaItem mediaItem) async {
     try {

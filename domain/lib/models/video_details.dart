@@ -35,30 +35,24 @@ class VideoDetails {
   factory VideoDetails.fromJson(JsonMap json) {
     // log.logMap(json);
     try {
-      final renderer = json['videoDetails'];
+      final videoDetails = json['videoDetails'];
+      log.logMap(videoDetails);
       // final signatureCipher = getValue<String>(
       //     json, ['streamingData', 'formats', 0, 'signatureCipher']);
       // This way calling with web agent
       // final streamUrl = Uri.splitQueryString(signatureCipher)['url']!;
       final streamUrl =
           getValue<String>(json, ['streamingData', 'formats', 0, 'url']);
-      final thumbnails = getValue<List>(
-        json,
-        [
-          'videoDetails',
-          'thumbnail',
-          'thumbnails',
-        ],
-        [],
-      );
+      final thumbnails =
+          getValue<List>(videoDetails, ['thumbnail', 'thumbnails'], []);
 
       return VideoDetails(
-        id: renderer['videoId'],
-        title: renderer['title'],
-        channelId: renderer['channelId'],
-        viewCount: int.parse(renderer['viewCount']),
-        lengthSeconds: int.parse(renderer['lengthSeconds']),
-        author: renderer['author'],
+        id: videoDetails['videoId'],
+        title: videoDetails['title'],
+        channelId: videoDetails['channelId'],
+        viewCount: int.parse(videoDetails['viewCount']),
+        lengthSeconds: int.parse(videoDetails['lengthSeconds']),
+        author: videoDetails['author'],
         streamUrl: streamUrl,
         expiredAt: _getExpiredAt(streamUrl),
         thumbnails: List<Thumbnail>.from(

@@ -77,12 +77,13 @@ class DarkTheme extends BaseTheme {
         color: Palette.background.darkPaper,
         surfaceTintColor: Palette.background.darkPaper,
       ),
-      chipTheme: const ChipThemeData(
-        side: BorderSide(
+      chipTheme: ChipThemeData(
+        side: const BorderSide(
           color: Color(0xFF2E2E2E),
           width: 1,
         ),
-        backgroundColor: Color(0xFF1A1A1A),
+        backgroundColor: const Color(0xFF1A1A1A),
+        labelStyle: textTheme.labelLarge,
       ),
       bottomSheetTheme: BottomSheetThemeData(
         elevation: 0,

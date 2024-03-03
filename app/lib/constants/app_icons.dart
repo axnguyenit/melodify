@@ -26,4 +26,5 @@ class AppIcons {
   static const thumbDownFill = 'assets/icons/thumb_down_fill.svg';
   static const thumbUpOutline = 'assets/icons/thumb_up_outline.svg';
   static const thumbUpFill = 'assets/icons/thumb_up_fill.svg';
+  static const download = 'assets/icons/download.svg';
 }

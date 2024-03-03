@@ -85,11 +85,10 @@ class _HomeScreenState extends BaseScreenWithBloc<HomeScreen, HomeBloc> {
                 ),
                 XIconButton(
                   icon: const XAvatar(
-                    name: 'Luly',
+                    name: 'Trinh',
                     size: 28,
                   ),
                   onPressed: () {
-                    router.pushNamed(Routes.search);
                   },
                 ),
               ],

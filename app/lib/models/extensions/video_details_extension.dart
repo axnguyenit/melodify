@@ -12,7 +12,8 @@ extension VideoDetailsExtension on VideoDetails {
       artUri: Uri.parse(thumbnails.last.url),
       extras: {
         'url': streamUrl,
-        'expire_at': expiredAt.secondsSinceEpoch,
+        'expiredAt': expiredAt.secondsSinceEpoch,
+        'viewCount': viewCount,
       },
     );
   }

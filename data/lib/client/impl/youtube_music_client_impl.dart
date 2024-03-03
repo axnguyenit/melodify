@@ -16,6 +16,8 @@ class YoutubeMusicClientImpl extends BaseClient implements YoutubeMusicClient {
 
   static const _userAgent =
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
+  static const _userAgentAndroid =
+      'com.google.android.youtube/18.46.41 (Linux; U; Android 12; GB) gzip';
 
   static const _contentType = 'application/json';
 
@@ -111,15 +113,38 @@ class YoutubeMusicClientImpl extends BaseClient implements YoutubeMusicClient {
 
   @override
   Future<VideoDetails> player({required GetPlayerRequest request}) async {
-    final json = await post(
+    final jsonMobile = await post(
       '/youtubei/v1/player',
       headers: {
         'User-Agent':
-            'com.google.android.youtube/17.36.4 (Linux; U; Android 12; GB) gzip',
+            'com.google.android.youtube/18.46.41 (Linux; U; Android 12; GB) gzip',
+        'Content-Type': _contentType,
+      },
+      data: {
+        if (request.videoId != null) 'videoId': request.videoId,
+        if (request.playlistId != null) 'playlistId': request.playlistId,
+        'context': {
+          'client': {
+            'clientName': 'ANDROID_TESTSUITE',
+            'clientVersion': '1.9',
+          },
+        },
+      },
+    );
+
+    final jsonWeb = await post(
+      '/youtubei/v1/player',
+      headers: {
+        'User-Agent': _userAgentAndroid,
         'Content-Type': _contentType,
       },
       data: request.toPayload(),
     );
+
+    final Map<String, dynamic> json = {
+      ...jsonMobile,
+      'videoDetails': jsonWeb['videoDetails']
+    };
 
     return VideoDetails.fromJson(json);
   }

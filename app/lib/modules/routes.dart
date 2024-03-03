@@ -8,6 +8,7 @@ import 'dashboard/dashboard.dart';
 import 'error/error_screen.dart';
 import 'splash/splash_screen.dart';
 import 'search/search_screen.dart';
+import 'player/player_screen.dart';
 
 enum RoutingAnimation {
   fade,
@@ -36,63 +37,60 @@ class Routes {
   static Route generateRoute(RouteSettings settings) {
     final RouteSettings(:name, :arguments) = settings;
 
-    switch (name) {
-      case splash:
-        return _pageBuilder(
+    return switch (name) {
+      splash => _pageBuilder(
           settings: settings,
-          child: const SplashScreen(),
+          builder: () => const SplashScreen(),
           routingAnimation: RoutingAnimation.fade,
-        );
-
-      case dashboard:
-        return _pageBuilder(
+        ),
+      dashboard => _pageBuilder(
           settings: settings,
-          child: const DashboardScreen(),
+          builder: () => const DashboardScreen(),
           routingAnimation: RoutingAnimation.fade,
-        );
-
-      case signIn:
-        return _pageBuilder(
+        ),
+      signIn => _pageBuilder(
           settings: settings,
-          child: const SignInScreen(),
+          builder: () => const SignInScreen(),
           routingAnimation: RoutingAnimation.slideBottomToTop,
-        );
-
-      case signUp:
-        return _pageBuilder(
+        ),
+      signUp => _pageBuilder(
           settings: settings,
-          child: const SignUpScreen(),
-        );
-
-      case smsVerification:
-        final map = arguments as Map<String, dynamic>;
-        final phone = map['phone'] as String;
-        final verificationId = map['verificationId'] as String;
-
-        return _pageBuilder(
+          builder: () => const SignUpScreen(),
+        ),
+      smsVerification => _pageBuilder(
           settings: settings,
-          child: SmsVerificationScreen(
-            phone: phone,
-            verificationId: verificationId,
-          ),
-        );
+          builder: () {
+            final map = arguments as Map<String, dynamic>;
+            final phone = map['phone'] as String;
+            final verificationId = map['verificationId'] as String;
 
-      case profileCreation:
-        final map = arguments as Map<String, dynamic>;
-        final phone = map['phone'] as String;
-
-        return _pageBuilder(
+            return SmsVerificationScreen(
+              phone: phone,
+              verificationId: verificationId,
+            );
+          }),
+      profileCreation => _pageBuilder(
           settings: settings,
-          child: ProfileCreationScreen(
-            phone: phone,
-          ),
-        );
+          builder: () {
+            final map = arguments as Map<String, dynamic>;
+            final phone = map['phone'] as String;
 
-      case search:
-        return _pageBuilder(
+            return ProfileCreationScreen(
+              phone: phone,
+            );
+          }),
+      search => _pageBuilder(
           settings: settings,
-          child: const SearchScreen(),
-        );
+          builder: () => const SearchScreen(),
+        ),
+      player => _pageBuilder(
+          settings: settings,
+          opaque: false,
+          routingAnimation: RoutingAnimation.slideBottomToTop,
+          transitionDuration: const Duration(milliseconds: 800),
+          reverseTransitionDuration: const Duration(milliseconds: 500),
+          builder: () => const PlayerScreen(),
+        ),
 
       // bool isShow = false;
       // if (arguments != null) {
@@ -100,32 +98,35 @@ class Routes {
       //   isShow = map['isShow'] as bool? ?? false;
       // }
 
-      default:
-        return MaterialPageRoute(builder: (context) => const ErrorScreen());
-    }
+      _ => MaterialPageRoute(builder: (context) => const ErrorScreen()),
+    };
   }
 
   static Route<T> _pageBuilder<T>({
     required RouteSettings settings,
-    required Widget child,
+    required Widget Function() builder,
     RoutingAnimation? routingAnimation,
+    bool opaque = true,
+    Duration transitionDuration = const Duration(milliseconds: 300),
+    Duration reverseTransitionDuration = const Duration(milliseconds: 300),
   }) {
-    switch (routingAnimation) {
-      case RoutingAnimation.fade:
-        return PageRouteBuilder(
+    return switch (routingAnimation) {
+      RoutingAnimation.fade => PageRouteBuilder(
+          opaque: opaque,
           settings: settings,
-          pageBuilder: (_, __, ___) => child,
+          pageBuilder: (_, __, ___) => builder(),
           transitionsBuilder: (_, animation, __, child) {
             return FadeTransition(
               opacity: animation,
               child: child,
             );
           },
-          transitionDuration: const Duration(milliseconds: 200),
-        );
+          transitionDuration: transitionDuration,
+        ),
 
       // case RoutingAnimation.rotate:
       //   return PageRouteBuilder(
+      //     opaque => opaque,
       //     settings: settings,
       //     pageBuilder: (_, __, ___) => child,
       //     transitionsBuilder: (_, animation, __, child) {
@@ -137,24 +138,24 @@ class Routes {
       //     transitionDuration: const Duration(milliseconds: 500),
       //   );
 
-      case RoutingAnimation.scale:
-        return PageRouteBuilder(
+      RoutingAnimation.scale => PageRouteBuilder(
+          opaque: opaque,
           settings: settings,
-          pageBuilder: (_, __, ___) => child,
+          pageBuilder: (_, __, ___) => builder(),
           transitionsBuilder: (_, animation, __, child) {
             return ScaleTransition(
               scale: animation,
               child: child,
             );
           },
-          transitionDuration: const Duration(milliseconds: 300),
-        );
+          transitionDuration: transitionDuration,
+        ),
+      RoutingAnimation.slideRightToLeft => PageRouteBuilder(
+          opaque: opaque,
 
-      case RoutingAnimation.slideRightToLeft:
-        return PageRouteBuilder(
           /// Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
           settings: settings,
-          pageBuilder: (_, __, ___) => child,
+          pageBuilder: (_, __, ___) => builder(),
           transitionsBuilder: (_, animation, __, child) {
             return SlideTransition(
               position: Tween(
@@ -164,14 +165,18 @@ class Routes {
               child: child,
             );
           },
-          transitionDuration: const Duration(milliseconds: 300),
-        );
-
-      case RoutingAnimation.slideBottomToTop:
-        return PageRouteBuilder(
+          transitionDuration: transitionDuration,
+        ),
+      RoutingAnimation.slideBottomToTop => PageRouteBuilder(
+          opaque: opaque,
           settings: settings,
-          pageBuilder: (_, __, ___) => child,
+          pageBuilder: (_, __, ___) => builder(),
           transitionsBuilder: (_, animation, __, child) {
+            animation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.fastLinearToSlowEaseIn,
+              reverseCurve: Curves.fastOutSlowIn,
+            );
             return SlideTransition(
               position: Tween(
                 begin: const Offset(0.0, 1.0),
@@ -180,11 +185,14 @@ class Routes {
               child: child,
             );
           },
-          transitionDuration: const Duration(milliseconds: 300),
-        );
-
-      default:
-        return MaterialPageRoute(settings: settings, builder: (_) => child);
-    }
+          transitionDuration: transitionDuration,
+          reverseTransitionDuration: reverseTransitionDuration,
+        ),
+      _ => PageRouteBuilder(
+          opaque: opaque,
+          settings: settings,
+          pageBuilder: (_, __, ___) => builder(),
+        ),
+    };
   }
 }
