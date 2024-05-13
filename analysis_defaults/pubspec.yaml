@@ -3,7 +3,8 @@ description: Analysis defaults for project
 publish_to: none
 
 environment:
-  sdk: '>=3.2.5 <4.0.0'
+  sdk: '>=3.3.3 <4.0.0'
+  flutter: '>=3.19.5'
 
 # NOTE: Code is not allowed in this package. Do not add dependencies.
 dependencies:
