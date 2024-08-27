@@ -63,6 +63,7 @@ class _AppShowingState extends State<AppShowing> {
               await di
                   .get<AppAudioHandler>()
                   .playMusic(state.videoDetails!.toMediaItem());
+              // Routing().pushNamed(Routes.player);
             }
           },
         ),

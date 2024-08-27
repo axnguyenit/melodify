@@ -18,13 +18,17 @@ typedef CheckingInternet = Future<List<InternetAddress>> Function(String host,
 class ConnectivityBloc extends BaseBloc<ConnectivityEvent, ConnectivityState> {
   final Connectivity _connectivity;
   final String _internetCheckingHost;
-  late final StreamSubscription<ConnectivityResult> subscription;
+  late final StreamSubscription<List<ConnectivityResult>> subscription;
   final CheckingInternet _internetCheckingFunction;
 
-  ConnectivityBloc()
-      : _connectivity = Connectivity(),
-        _internetCheckingHost = 'www.google.com',
-        _internetCheckingFunction = InternetAddress.lookup,
+  ConnectivityBloc({
+    Connectivity? connectivity,
+    CheckingInternet? internetCheckingFunction,
+    String? internetCheckingHost,
+  })  : _connectivity = connectivity ?? Connectivity(),
+        _internetCheckingHost = internetCheckingHost ?? 'www.google.com',
+        _internetCheckingFunction =
+            internetCheckingFunction ?? InternetAddress.lookup,
         super(Keys.Blocs.connectivity, const ConnectivityInitial()) {
     subscription = _connectivity.onConnectivityChanged.listen((result) async {
       log.info('CONNECTION RESULT ──> $result');
@@ -38,7 +42,6 @@ class ConnectivityBloc extends BaseBloc<ConnectivityEvent, ConnectivityState> {
     on<ConnectivityChecked>(_onConnectivityChecked);
     on<ConnectivityChanged>(_onConnectivityChanged);
   }
-
   Future<bool> _checkConnection() async {
     try {
       final result = await _internetCheckingFunction(_internetCheckingHost);

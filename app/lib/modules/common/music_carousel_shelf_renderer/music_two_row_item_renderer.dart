@@ -60,32 +60,13 @@ class MusicTwoRowItemRenderer extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  XIconButton(
-                    icon: AppIcon(
-                      assetName: AppIcons.thumbDownOutline,
-                      color: context.textColor,
-                    ),
-                    onPressed: () {},
-                  ),
-                  XIconButton(
-                    icon: AppIcon(
-                      assetName: AppIcons.thumbUpOutline,
-                      color: context.textColor,
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
               subtitle: Text(
                 sectionItem.subtitle,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              contentPadding: const EdgeInsets.only(
-                left: AppConstants.appPadding,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.appPadding,
               ),
               horizontalTitleGap: AppConstants.appPadding,
             ),

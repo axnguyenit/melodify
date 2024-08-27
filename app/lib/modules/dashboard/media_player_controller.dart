@@ -111,7 +111,7 @@ class MediaPlayerController extends ChangeNotifier {
   double replacedHeaderHeight(BuildContext context) {
     final x1 = initialPlayerChildSize(context);
     const x2 = 0.8;
-    const y1 = 12.0, y2 = 122.0;
+    const y1 = 12.0, y2 = 120.0;
     if (playerSize >= x2) return y2;
     if (isMini(context)) return y1;
 
@@ -148,7 +148,11 @@ class MediaPlayerController extends ChangeNotifier {
 
   void playerAnimateToMinSize() {
     if (!playerDraggableScroll.isAttached) return;
-    playerDraggableScroll.reset();
+    playerDraggableScroll.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.linear,
+    );
   }
 
   void playerAnimateToMaxSizeIfNeeded(BuildContext context) {
@@ -156,7 +160,7 @@ class MediaPlayerController extends ChangeNotifier {
 
     playerDraggableScroll.animateTo(
       1.0,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 200),
       curve: Curves.linear,
     );
   }

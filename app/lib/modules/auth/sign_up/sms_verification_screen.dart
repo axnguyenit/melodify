@@ -123,7 +123,8 @@ class _SmsVerificationScreenState
                 textController: _otpTextController,
                 errorMessage: _otpErrorMessage,
                 width:
-                    AppConstants.screenSize.width - AppConstants.appPadding * 2,
+                    MediaQuery.sizeOf(context).width -
+                    AppConstants.appPadding * 2,
                 onCompleted: _verifySMS,
                 onResendSubmitted: _resendOtp,
                 onChanged: (_) {

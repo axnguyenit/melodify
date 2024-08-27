@@ -136,7 +136,8 @@ class AppAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
         androidNotificationChannelName: 'Melodify',
         // androidNotificationIcon: 'drawable/ic_launcher',
         androidShowNotificationBadge: true,
-        androidStopForegroundOnPause: false,
+        androidNotificationOngoing: true,
+        androidStopForegroundOnPause: true,
         // notificationColor: Palette.grey500,
       ),
     );

@@ -28,13 +28,26 @@ class _MusicWatchNextState extends State<MusicWatchNext> {
           color: widget.controller.gradientColors(context).last,
           child: SingleChildScrollView(
             controller: scrollController,
-            child: const Column(
+            child: Column(
               children: [
                 ColoredBox(
                   color: Colors.red,
                   child: SizedBox(
-                    height: 300,
+                    height: 900,
                     width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 40),
+                      child: ListView.builder(
+                        itemCount: 100,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: const Icon(Icons.label),
+                            title: Text('Item ${index + 1}'),
+                            subtitle: Text('Subtitle ${index + 1}'),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -45,3 +58,8 @@ class _MusicWatchNextState extends State<MusicWatchNext> {
     );
   }
 }
+
+
+/// To hide bottom sheet when scroll on top on ListView
+/// • Create NotificationListener<ScrollNotification> to listen ListView scroll
+/// • Call BottomSheet controller when go to top of ListView

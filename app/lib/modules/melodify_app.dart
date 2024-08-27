@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:melodify/blocs/blocs.dart';
+import 'package:melodify/constants/constants.dart';
 import 'package:melodify/di/di.dart';
 import 'package:melodify/global/global.dart';
 import 'package:melodify/theme/theme.dart';
@@ -39,8 +40,8 @@ class _MelodifyAppState extends State<MelodifyApp> {
         builder: (_, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Melodify',
-            restorationScopeId: 'melodify',
+            title: AppConstants.appName,
+            restorationScopeId: AppConstants.appName,
             themeMode: ThemeMode.dark,
             theme: LightTheme().build(context),
             darkTheme: DarkTheme().build(context),

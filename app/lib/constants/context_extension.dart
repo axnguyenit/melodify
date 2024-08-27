@@ -94,4 +94,8 @@ extension ContextExtension on BuildContext {
   Color get chipBackground => isLightMode
       ? Palette.black.withAlpha((0.08 * 255).toInt())
       : Palette.white.withOpacity(0.08);
+
+  double get screenWidth => MediaQuery.sizeOf(this).width;
+
+  double get screenHeight => MediaQuery.sizeOf(this).height;
 }

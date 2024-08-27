@@ -23,8 +23,13 @@ class XAlertDialog extends StatelessWidget {
       child: AlertDialog(
         titlePadding: const EdgeInsets.all(20),
         contentPadding: const EdgeInsets.all(0),
-        title: SizedBox(
-          width: AppConstants.screenSize.width * 0.6,
+        title: ConstrainedBox(
+          constraints: const BoxConstraints(
+              // minHeight: 100,
+              // maxHeight: 200,
+              // minWidth: 600,
+              // maxWidth: context.screenWidth * 0.6,
+              ),
           child: SpanLabel(text: message, textAlign: TextAlign.center),
         ),
         content: Column(

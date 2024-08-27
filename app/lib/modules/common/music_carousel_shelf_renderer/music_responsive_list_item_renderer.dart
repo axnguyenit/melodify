@@ -113,13 +113,14 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: items.map((item) {
-                    log
-                      ..trace(
-                          '''ID --> ${item.overlay.playNavigationEndpoint.videoId}''')
-                      ..trace(
-                          '''Playlist ID --> ${item.overlay.playNavigationEndpoint.playlistId}''');
+                    // log
+                    //   ..trace(
+                    //       '''ID --> ${item.overlay.playNavigationEndpoint.videoId}''')
+                    //   ..trace(
+                    //       '''Playlist ID --> ${item.overlay.playNavigationEndpoint.playlistId}''');
 
                     return ListTile(
+                      dense: true,
                       contentPadding: const EdgeInsets.only(
                         left: 16,
                       ),
@@ -145,18 +146,6 @@ class MusicResponsiveListItemRenderer extends StatelessWidget {
                         fit: BoxFit.contain,
                         imageUrl: item.thumbnails.first.url,
                         borderRadius: BorderRadius.circular(2),
-                        // placeholderImage: (item['type'] == 'playlist' ||
-                        //         item['type'] == 'album')
-                        //     ? const AssetImage(
-                        //         'assets/album.png',
-                        //       )
-                        //     : item['type'] == 'artist'
-                        //         ? const AssetImage(
-                        //             'assets/artist.png',
-                        //           )
-                        //         : const AssetImage(
-                        //             'assets/cover.jpg',
-                        //           ),
                       ),
                       trailing: MusicMoreMenu(sectionItem: item),
                       onTap: () {

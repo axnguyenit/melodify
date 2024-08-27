@@ -85,7 +85,7 @@ class _HomeScreenState extends BaseScreenWithBloc<HomeScreen, HomeBloc> {
                 ),
                 XIconButton(
                   icon: const XAvatar(
-                    name: 'Trinh',
+                    name: 'Kha',
                     size: 28,
                   ),
                   onPressed: () {

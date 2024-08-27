@@ -14,6 +14,8 @@ import 'media_info.dart';
 import 'media_player_controller.dart';
 import 'music_watch_next.dart';
 
+part 'player_header_action.dart';
+
 class MediaPlayer extends StatefulWidget {
   const MediaPlayer({super.key});
 
@@ -24,19 +26,6 @@ class MediaPlayer extends StatefulWidget {
 class _MediaPlayerState extends State<MediaPlayer>
     with StateMixin, SingleTickerProviderStateMixin {
   final _controller = MediaPlayerController();
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.initialize();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +60,8 @@ class _MediaPlayerState extends State<MediaPlayer>
                             },
                             child: SizedBox(
                               height: MediaQuery.sizeOf(context).height,
-                              child: DecoratedBox(
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.topCenter,
@@ -89,57 +79,10 @@ class _MediaPlayerState extends State<MediaPlayer>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      AnimatedSwitcher(
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        child: _controller.playerSize <= 0.8
-                                            ? SizedBox(
-                                                height: _controller
-                                                    .replacedHeaderHeight(
-                                                        context),
-                                              )
-                                            : Column(
-                                                children: [
-                                                  SizedBox(
-                                                      height:
-                                                          MediaQuery.paddingOf(
-                                                                  context)
-                                                              .top),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      XIconButton(
-                                                        icon: Icon(
-                                                          Icons
-                                                              .keyboard_arrow_down_rounded,
-                                                          color:
-                                                              context.textColor,
-                                                        ),
-                                                        onPressed: _controller
-                                                            .playerAnimateToMinSize,
-                                                      ),
-                                                      XIconButton(
-                                                        icon: Icon(
-                                                          Icons
-                                                              .more_vert_rounded,
-                                                          color:
-                                                              context.textColor,
-                                                        ),
-                                                        onPressed: () {},
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(height: 48),
-                                                ],
-                                              ),
-                                        transitionBuilder: (child, animation) {
-                                          return ScaleTransition(
-                                            scale: animation,
-                                            child: child,
-                                          );
-                                        },
+                                      PlayerHeaderAction(
+                                        hidden: _controller.playerSize <= 0.8,
+                                        height: _controller
+                                            .replacedHeaderHeight(context),
                                       ),
                                       SizedBox(
                                         height: _controller.artSize(context),

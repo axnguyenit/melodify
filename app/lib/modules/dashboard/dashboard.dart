@@ -28,8 +28,6 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends BaseScreen<DashboardScreen>
     with SingleTickerProviderStateMixin {
   late int _selectedIndex;
-  late final AnimationController _animationController;
-  late final Animation<Offset> _offsetAnimation;
 
   void _onTabChanged(int index) {
     setState(() {
@@ -40,36 +38,15 @@ class _DashboardScreenState extends BaseScreen<DashboardScreen>
   @override
   void initState() {
     super.initState();
-    _initializeAnimation();
+    MediaPlayerController().initialize();
     _selectedIndex = widget.selectedIndex;
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    MediaPlayerController().dispose();
 
     super.dispose();
-  }
-
-  Future<void> _initializeAnimation() async {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-      reverseDuration: const Duration(milliseconds: 300),
-    );
-
-    final offsetTween = Tween<Offset>(
-      begin: const Offset(0.0, 0.0),
-      end: const Offset(0.0, 1.0),
-    );
-
-    _offsetAnimation = offsetTween.animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.linear,
-        reverseCurve: Curves.linear,
-      ),
-    );
   }
 
   @override
@@ -86,12 +63,6 @@ class _DashboardScreenState extends BaseScreen<DashboardScreen>
           builder: (_, __) {
             final isMini = MediaPlayerController().isMini(context);
 
-            if (isMini) {
-              _animationController.reverse();
-            } else {
-              _animationController.forward();
-            }
-
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -100,43 +71,18 @@ class _DashboardScreenState extends BaseScreen<DashboardScreen>
                     maxDuration: snapshot.data!.duration?.inSeconds.toDouble(),
                   )
                 ],
-                AnimatedSwitcher(
+                AnimatedAlign(
+                  alignment: Alignment.topCenter,
                   duration: const Duration(milliseconds: 300),
-                  // child: BottomNavigationBar(
-                  //   items: BottomBar.values.map((e) {
-                  //     return e.toNavigationBarItem(context);
-                  //   }).toList(),
-                  //   currentIndex: _selectedIndex,
-                  //   onTap: _onTabChanged,
-                  // ),
-                  child: !isMini
-                      ? const SizedBox.shrink()
-                      : BottomNavigationBar(
-                          items: BottomBar.values.map((e) {
-                            return e.toNavigationBarItem(context);
-                          }).toList(),
-                          currentIndex: _selectedIndex,
-                          onTap: _onTabChanged,
-                        ),
-                  transitionBuilder: (child, _) {
-                    return SlideTransition(
-                      position: _offsetAnimation,
-                      child: child,
-                    );
-                  },
+                  heightFactor: isMini ? 1.0 : 0.0,
+                  child: BottomNavigationBar(
+                    items: BottomBar.values.map((e) {
+                      return e.toNavigationBarItem(context);
+                    }).toList(),
+                    currentIndex: _selectedIndex,
+                    onTap: _onTabChanged,
+                  ),
                 ),
-                // AnimatedSlide(
-                //   offset:
-                //       isMini ? const Offset(0.0, 0.0) : const Offset(0.0, 1.0),
-                //   duration: const Duration(milliseconds: 300),
-                //   child: BottomNavigationBar(
-                //     items: BottomBar.values.map((e) {
-                //       return e.toNavigationBarItem(context);
-                //     }).toList(),
-                //     currentIndex: _selectedIndex,
-                //     onTap: _onTabChanged,
-                //   ),
-                // ),
               ],
             );
           },

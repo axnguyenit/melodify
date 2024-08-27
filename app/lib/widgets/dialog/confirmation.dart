@@ -26,7 +26,7 @@ class Confirmation extends StatelessWidget {
         titlePadding: const EdgeInsets.all(20),
         contentPadding: const EdgeInsets.all(0),
         title: SizedBox(
-          width: AppConstants.screenSize.width * 0.6,
+          width: context.screenWidth * 0.6,
           child: SpanLabel(text: message, textAlign: TextAlign.center),
         ),
         content: Column(

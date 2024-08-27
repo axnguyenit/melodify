@@ -5,10 +5,6 @@ import 'package:flutter/material.dart';
 class AppConstants {
   static const termsAndConditionURL = 'https://example.com/m_terms.html';
 
-  static double statusBarHeight = 0.0;
-
-  static Size screenSize = const Size(0.0, 0.0);
-
   static const appName = 'Melodify';
 
   static const defaultPhoneCountryCode = kDebugMode ? '+84' : '+33';
